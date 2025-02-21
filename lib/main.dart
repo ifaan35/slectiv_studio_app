@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 import 'app/routes/app_pages.dart';
+import 'package:midtrans_sdk/midtrans_sdk.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ Future<void> main() async {
     ),
   );
   await Firebase.initializeApp();
+  initSDK();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -24,4 +26,25 @@ Future<void> main() async {
       getPages: AppPages.routes,
     ),
   );
+}
+
+void initSDK() async {
+  MidtransSDK? midtrans;
+  midtrans = await MidtransSDK.init(
+    config: MidtransConfig(
+      clientKey: 'SB-Mid-client-ut94ktGniDplisdy',
+      merchantBaseUrl: 'https://app.sandbox.midtrans.com/snap/v1/transactions',
+      colorTheme: ColorTheme(
+        colorPrimary: Color(0xFF00FF00),
+        colorPrimaryDark: Color(0xFF00FF00),
+        colorSecondary: Color(0xFF00FF00),
+      ),
+    ),
+  );
+
+  midtrans.setUIKitCustomSetting(skipCustomerDetailsPages: true);
+
+  midtrans.setTransactionFinishedCallback((result) {
+    print('Transaction Finished: $result');
+  });
 }

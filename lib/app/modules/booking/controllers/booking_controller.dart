@@ -1,15 +1,23 @@
+import 'dart:convert';
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:slectiv_studio_app/app/modules/bottom_navigation_bar/views/bottom_navigation_bar_view.dart';
+import 'package:midtrans_sdk/midtrans_sdk.dart';
 import 'package:slectiv_studio_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
+import 'package:http/http.dart' as http;
 
 class BookingController extends GetxController {
+  MidtransSDK? midtrans;
   var selectedDay = DateTime.now().obs;
   var focusedDay = DateTime.now().obs;
   var selectedOption = ''.obs;
   var selectedQuantity = ''.obs;
+  var selectedPerson = ''.obs;
   var selectedTime = ''.obs;
+  var apiToken = ''.obs;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   var bookings = <String, List<String>>{}.obs;
@@ -112,8 +120,62 @@ class BookingController extends GetxController {
         SlectivTexts.errorBookingValidationSubtitle,
       );
     } else {
+      // await controller.saveBooking();
+      midtrans = await MidtransSDK.init(
+        config: MidtransConfig(
+          clientKey: 'SB-Mid-client-ut94ktGniDplisdy',
+          merchantBaseUrl:
+              'https://app.sandbox.midtrans.com/snap/v3/redirection/',
+          colorTheme: ColorTheme(
+            colorPrimary: Theme.of(Get.context!).primaryColor,
+            colorPrimaryDark: Theme.of(Get.context!).primaryColor,
+            colorSecondary: Theme.of(Get.context!).primaryColor,
+          ),
+        ),
+      );
+      var response = await http.post(
+        Uri.parse('https://app.sandbox.midtrans.com/snap/v1/transactions'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization':
+              'Basic U0ItTWlkLXNlcnZlci1kcXctRmI1UUExN1dhMjJkVmUwOGEydVA6',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "transaction_details": {
+            "order_id": "order-id-${DateTime.now().millisecondsSinceEpoch}",
+            "gross_amount":
+                75000 +
+                (int.parse(controller.selectedPerson.value) > 3
+                    ? (int.parse(controller.selectedPerson.value) - 3) * 20000
+                    : 0),
+          },
+          "enabled_payments": ["bank_transfer", "gopay", "shopeepay", "dana"],
+          "customer_details": {
+            "first_name": "budi",
+            "last_name": "pratama",
+            "email": "budi.pra@example.com",
+            "phone": "08111222333",
+          },
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        var responseData = jsonDecode(response.body);
+        var token = responseData['token'];
+        // save token to apiToken
+        controller.apiToken.value = token;
+        print('Transaction token: $token');
+      } else {
+        print(
+          'Failed to create transaction. Status code: ${response.statusCode}',
+        );
+      }
+      midtrans!.setUIKitCustomSetting(skipCustomerDetailsPages: true);
+      // open midtrans payment page
+      midtrans?.startPaymentUiFlow(token: controller.apiToken.value);
       await controller.saveBooking();
-      Get.offAll(const BottomNavigationBarView());
+      // Get.offAll(const BottomNavigationBarView());
     }
   }
 
