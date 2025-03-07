@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:midtrans_sdk/midtrans_sdk.dart';
 import 'package:slectiv_studio_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 import 'package:http/http.dart' as http;
 
@@ -119,6 +120,8 @@ class BookingController extends GetxController {
       Get.snackbar(
         SlectivTexts.errorBookingValidationTitle,
         SlectivTexts.errorBookingValidationSubtitle,
+        backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+        colorText: SlectivColors.whiteColor,
       );
     } else {
       // await controller.saveBooking();
@@ -151,15 +154,24 @@ class BookingController extends GetxController {
                     ? (int.parse(controller.selectedPerson.value) - 3) * 20000
                     : 0),
           },
-          "enabled_payments": ["bank_transfer", "gopay", "shopeepay", "dana"],
+          "enabled_payments": [
+            "gopay",
+            "shopeepay",
+          ], // Pastikan "dana" ada di sini
           "customer_details": {
-            "first_name": "budi",
-            "last_name": "pratama",
+            "first_name": "Budi",
+            "last_name": "Pratama",
             "email": "budi.pra@example.com",
             "phone": "08111222333",
           },
         }),
       );
+
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+        print('Response data: $responseData');
+        // Periksa apakah "dana" ada di dalam daftar metode pembayaran
+      }
 
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
@@ -175,7 +187,27 @@ class BookingController extends GetxController {
       midtrans!.setUIKitCustomSetting(skipCustomerDetailsPages: true);
       // open midtrans payment page
       midtrans?.startPaymentUiFlow(token: controller.apiToken.value);
-      await controller.saveBooking();
+
+      midtrans?.setTransactionFinishedCallback((result) {
+        print('Transaction finished with result: $result');
+        if (result.isTransactionCanceled == true) {
+          Get.snackbar(
+            SlectivTexts.errorBookingValidationTitle,
+            SlectivTexts.errorBookingValidationSubtitle,
+            backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+            colorText: SlectivColors.whiteColor,
+          );
+        } else {
+          Get.snackbar(
+            SlectivTexts.successBookingValidationTitle,
+            SlectivTexts.successBookingValidationSubtitle,
+            backgroundColor: SlectivColors.positifSnackbarColor,
+            colorText: SlectivColors.whiteColor,
+          );
+          controller.saveBooking();
+        }
+      });
+      // await controller.saveBooking();
       // Get.offAll(const BottomNavigationBarView());
     }
   }

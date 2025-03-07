@@ -95,6 +95,16 @@ class SlectivTexts {
   static const String snackbarBookingConfirmTitle = "Confirm Your Booking";
   static const String snackbarBookingConfirmSubtitle =
       "Are you sure you want to proceed with this booking? Please ensure all details are correct.";
+  static const String snackbarBookingFailedTitle = "Booking Failed";
+  static const String snackbarBookingFailedSubtitle =
+      "Your booking has been canceled. Please try again later.";
+  static const String snackbarBookingSuccessTitle = "Booking Success";
+  static const String snackbarBookingSuccessSubtitle =
+      "Your booking has been successfully confirmed. We look forward to seeing you!";
+  static const String snackbarBookingSuccessValidationTitle = "Success";
+  static const String successBookingValidationTitle = "Success";
+  static const String successBookingValidationSubtitle =
+      "Your booking has been successfully confirmed. We look forward to seeing you!";
 
   // -- Home Screen
   static const String newAccountType = "Moment Welcomer";

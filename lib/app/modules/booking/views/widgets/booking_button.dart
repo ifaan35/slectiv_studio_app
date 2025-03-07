@@ -103,15 +103,6 @@ class SlectivBookingButton extends StatelessWidget {
                 await controller.slectivBookingValidation(controller);
 
                 Get.back();
-
-                Get.snackbar(
-                  SlectivTexts.snackbarSuccessfullyBookingTitle,
-                  SlectivTexts.snackbarSuccessfullyBookingSubtitle,
-                  backgroundColor: SlectivColors.submitButtonColor,
-                  colorText: SlectivColors.whiteColor,
-                );
-
-                Get.offAll(() => const BookingSuccessScreen());
               }
             }
           },

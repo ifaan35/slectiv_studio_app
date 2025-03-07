@@ -13,7 +13,6 @@ class BookingSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: SlectivColors.backgroundColor,
       body: Padding(
@@ -21,20 +20,18 @@ class BookingSuccessScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Lottie.asset(SlectivImages.bookingSuccessfully)
-            ),
+            Center(child: Lottie.asset(SlectivImages.bookingSuccessfully)),
             Text(
               SlectivTexts.bookingSuccessTitle,
               style: GoogleFonts.spaceGrotesk(
-                  textStyle: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      color: SlectivColors.blackColor)),
+                textStyle: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  color: SlectivColors.blackColor,
+                ),
+              ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Text(
               SlectivTexts.bookingSuccessDescription,
               style: GoogleFonts.spaceGrotesk(
@@ -45,15 +42,12 @@ class BookingSuccessScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             SlectiveWidgetButton(
               buttonName: SlectivTexts.bookingConfirm,
-              onPressed: () => Get.offAll(() => const BottomNavigationBarView()),
+              onPressed:
+                  () => Get.offAll(() => const BottomNavigationBarView()),
               backgroundColor: SlectivColors.submitButtonColor,
             ),
           ],

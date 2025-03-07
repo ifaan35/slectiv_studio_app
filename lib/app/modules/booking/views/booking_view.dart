@@ -19,6 +19,11 @@ class BookingView extends GetView<BookingController> {
   Widget build(BuildContext context) {
     final controller = Get.put(BookingController());
     final DateTime now = DateTime.now();
+    // Mengatur ulang status pemesanan setelah berhasil atau gagal
+    controller.selectedOption.value = '';
+    controller.selectedQuantity.value = '';
+    controller.selectedPerson.value = '';
+    controller.selectedTime.value = '';
 
     return Scaffold(
       backgroundColor: SlectivColors.backgroundColor,
