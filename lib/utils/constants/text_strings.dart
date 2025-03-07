@@ -231,6 +231,7 @@ class SlectivTexts {
   static const String bookingTitle2 = "Select Time";
   static const String bookingTitle3 = "Color";
   static const String bookingTitle4 = "Person";
+  static const String bookingTitle5 = "email";
   static const String bookingTitleTime = "Time";
   static const String confirmedBookTitle = "Booking Confirmed!";
   static const String confirmedBookSubtitle =

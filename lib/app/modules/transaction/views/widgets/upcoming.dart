@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/app/modules/booking/controllers/booking_controller.dart';
+import 'package:slectiv_studio_app/app/modules/bottom_navigation_bar/controllers/bottom_navigation_bar_controller.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 
@@ -87,7 +88,7 @@ class _UpcomingState extends State<Upcoming> {
           });
 
           return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             children: [
               const SizedBox(height: 8),
               ...upcomingBookings.map((booking) {
@@ -108,7 +109,10 @@ class _UpcomingState extends State<Upcoming> {
     String time = details[0];
     String color = details[1];
     String person = details[2];
-
+    final BottomNavigationBarController bottomNavigationBarController = Get.put(
+      BottomNavigationBarController(),
+    );
+    var role = bottomNavigationBarController.isUser.value;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
@@ -145,6 +149,15 @@ class _UpcomingState extends State<Upcoming> {
               "${SlectivTexts.bookingTitle4} : $person",
               style: const TextStyle(fontSize: 16),
             ),
+            role
+                ? Text(
+                  "${SlectivTexts.bookingTitle4} : $person",
+                  style: const TextStyle(fontSize: 16),
+                )
+                : Text(
+                  "Email : ${details[3]}",
+                  style: const TextStyle(fontSize: 16),
+                ),
           ],
         ),
       ),
