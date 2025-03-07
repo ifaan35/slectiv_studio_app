@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class LoginScreenController extends GetxController {
   // final CollectionReference _userCollection =
   //     FirebaseFirestore.instance.collection('user');
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   void clearForm() {
     emailController.clear();
@@ -69,5 +71,15 @@ class LoginScreenController extends GetxController {
         colorText: SlectivColors.whiteColor,
       );
     }
+  }
+
+  Future<String> getUserRole() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('user').doc(user.uid).get();
+      return (userDoc.data() as Map<String, dynamic>)['role'] ?? 'user';
+    }
+    return 'user';
   }
 }

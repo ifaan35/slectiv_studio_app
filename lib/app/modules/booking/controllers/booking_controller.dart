@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +22,8 @@ class BookingController extends GetxController {
   var bookings = <String, List<String>>{}.obs;
 
   final ProfileController profileController = Get.put(ProfileController());
+
+  var calendarFormat;
 
   @override
   void onInit() {

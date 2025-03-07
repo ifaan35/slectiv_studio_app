@@ -35,6 +35,7 @@ class RegisterScreenController extends GetxController {
     return querySnapshot.docs.isNotEmpty;
   }
 
+  // Fungsi Registrasi User
   Future<void> registerUser(
     String name,
     String phoneNumber,
@@ -42,27 +43,41 @@ class RegisterScreenController extends GetxController {
     String password,
   ) async {
     try {
+      // Membuat pengguna dengan email dan password
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
+      // Mendapatkan userId setelah registrasi berhasil
       String userId = userCredential.user!.uid;
 
+      // Menyimpan data user ke Firestore
       await _userCollection.doc(userId).set({
         SlectivTexts.profileName: name,
         SlectivTexts.profilePhoneNumber: phoneNumber,
         SlectivTexts.profileEmail: email,
+        SlectivTexts.profileRole: 'user',
       });
+
+      // Memberikan feedback bahwa registrasi berhasil
+      Get.snackbar(
+        'Registration Successful',
+        'Welcome $name, your account has been created.',
+        backgroundColor: SlectivColors.successSnackbarButtonColor,
+        colorText: SlectivColors.whiteColor,
+      );
     } catch (e) {
+      // Menampilkan error jika terjadi masalah
       Get.snackbar(
         SlectivTexts.snackbarErrorTitle,
         SlectivTexts.snackbarErrorRegistrationSubtitle,
         backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
         colorText: SlectivColors.whiteColor,
       );
-      print(e);
+      print("Error: $e"); // Debugging error yang terjadi
     }
   }
 
+  // Validasi Input
   bool validateInputs({
     required String name,
     required String phoneNumber,
@@ -100,6 +115,7 @@ class RegisterScreenController extends GetxController {
     return true;
   }
 
+  // Fungsi untuk Validasi Email
   bool isValidEmail(String email) {
     final RegExp emailRegex = RegExp(SlectivTexts.regExp);
     return emailRegex.hasMatch(email);

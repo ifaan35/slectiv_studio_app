@@ -20,13 +20,15 @@ import '../modules/register_screen/bindings/register_screen_binding.dart';
 import '../modules/register_screen/views/register_screen_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/transaction/bindings/transaction_binding.dart';
+import '../modules/transaction/views/transaction_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.BOOKING;
+  static const INITIAL = Routes.LOGIN_SCREEN;
 
   static final routes = [
     GetPage(
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSACTION,
+      page: () => const TransactionView(),
+      binding: TransactionBinding(),
     ),
   ];
 }

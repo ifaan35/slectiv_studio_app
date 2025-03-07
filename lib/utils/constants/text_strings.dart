@@ -29,6 +29,8 @@ class SlectivTexts {
   static const String forgetPasswordTitle = "Forget Password";
   static const String forgetPasswordSubtitle =
       "Please fill in the following form correctly";
+  static const String profileRole = "role";
+  static const String profileUserId = "userId";
 
   // -- Authentication Form
   static const String email = "Email";
@@ -102,6 +104,7 @@ class SlectivTexts {
   // -- Bottom Navigation Bar
   static const String homeLabel = "Home";
   static const String bookingLabel = "Booking";
+  static const String transactionLabel = "Transaction";
   static const String galleyLabel = "Gallery";
   static const String profileLabel = "Profile";
 
@@ -253,4 +256,13 @@ class SlectivTexts {
   static const String bookingForDate = "for date:";
   static const String bookingYes = "Yes";
   static const String bookingNo = "No";
+
+  // -- Booking Admin
+  static const String bookingAdminTitle = "Dashboard Admin";
+  static const String bookingAdminSubtitle = "Manage your bookings here";
+
+  //transaction'
+  static const String transactionTitle = "Transaction";
+  static const String transactionUpcoming = "Upcoming";
+  static const String transactionCompleted = "Completed";
 }

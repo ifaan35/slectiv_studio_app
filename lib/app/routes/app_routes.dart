@@ -13,6 +13,8 @@ abstract class Routes {
   static const BOOKING = _Paths.BOOKING;
   static const GALLERY = _Paths.GALLERY;
   static const PROFILE = _Paths.PROFILE;
+  static const BOOKING_ADMIN = _Paths.BOOKING_ADMIN;
+  static const TRANSACTION = _Paths.TRANSACTION;
 }
 
 abstract class _Paths {
@@ -27,4 +29,6 @@ abstract class _Paths {
   static const BOOKING = '/booking';
   static const GALLERY = '/gallery';
   static const PROFILE = '/profile';
+  static const BOOKING_ADMIN = '/booking-admin';
+  static const TRANSACTION = '/transaction';
 }

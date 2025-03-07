@@ -6,9 +6,7 @@ import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 
 class SlectivBookingHeader extends StatelessWidget {
-  const SlectivBookingHeader({
-    super.key,
-  });
+  const SlectivBookingHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +25,14 @@ class SlectivBookingHeader extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 4.0),
           child: IconButton(
-            onPressed: () => Get.to(() => const SlectivBookingHistory()), 
-            icon: const Icon(FluentIcons.cart_20_filled, size: 40, color: SlectivColors.blackColor,)),
-        )
+            onPressed: () => Get.to(() => const SlectivBookingHistory()),
+            icon: const Icon(
+              FluentIcons.cart_20_filled,
+              size: 40,
+              color: SlectivColors.blackColor,
+            ),
+          ),
+        ),
       ],
     );
   }

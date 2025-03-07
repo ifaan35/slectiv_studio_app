@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SlectivColors{
+class SlectivColors {
   // -- Background Colors
   static const Color backgroundColor = Color(0xFFECE7DD);
   static const Color bottomNVBackgroundColor = Color(0xFFCCCCCC);
@@ -14,6 +14,7 @@ class SlectivColors{
   static const Color submitButtonColor = Color(0xFF0404B2);
   static const Color warningColor = Color(0xFFF15A24);
   static const Color positifSnackbarColor = Color(0xFF198251);
+  static const Color successSnackbarButtonColor = Color(0xFF198251);
   static const Color cancelAndNegatifSnackbarButtonColor = Color(0xFFE21414);
 
   // -- Circular Progress Colors

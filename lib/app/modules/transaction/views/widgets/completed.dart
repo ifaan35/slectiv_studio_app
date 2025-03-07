@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:slectiv_studio_app/app/modules/booking/controllers/booking_controller.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 import 'package:slectiv_studio_app/app/modules/profile/controllers/profile_controller.dart';
 
-class SlectivBookingHistory extends StatefulWidget {
-  const SlectivBookingHistory({super.key});
+class Completed extends StatefulWidget {
+  const Completed({super.key});
 
   @override
-  _SlectivBookingHistoryState createState() => _SlectivBookingHistoryState();
+  _CompletedState createState() => _CompletedState();
 }
 
-class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
-  bool showMoreUpcoming = false;
-  bool showMoreCompleted = false;
-
+class _CompletedState extends State<Completed> {
   @override
   Widget build(BuildContext context) {
     final BookingController bookingController = Get.put(BookingController());
@@ -25,30 +20,7 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
 
     return Scaffold(
       backgroundColor: SlectivColors.backgroundColor,
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: IconButton(
-            onPressed: () => Get.back(),
-            icon: const Icon(
-              FluentIcons.arrow_left_20_regular,
-              size: 25,
-              color: SlectivColors.blackColor,
-            ),
-          ),
-        ),
-        backgroundColor: SlectivColors.backgroundColor,
-        title: Text(
-          SlectivTexts.bookingHistoryTitle,
-          style: GoogleFonts.spaceGrotesk(
-            textStyle: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: SlectivColors.blackColor,
-            ),
-          ),
-        ),
-      ),
+
       body: SafeArea(
         child: Obx(() {
           if (bookingController.bookings.isEmpty) {
@@ -60,11 +32,9 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
             );
           } else {
             String userEmail = profileController.email.value;
-            print("${SlectivTexts.bookingUserEmail} $userEmail");
             List<String> sortedDates = bookingController.bookings.keys.toList();
             DateTime now = DateTime.now();
 
-            List<Map<String, dynamic>> upcomingBookings = [];
             List<Map<String, dynamic>> completedBookings = [];
 
             for (String date in sortedDates) {
@@ -85,12 +55,7 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
                       int.parse(time.split(':')[1]),
                     );
 
-                    if (bookingTime.isAfter(now)) {
-                      upcomingBookings.add({
-                        SlectivTexts.bookingDate: date,
-                        SlectivTexts.bookingDetails: booking,
-                      });
-                    } else {
+                    if (bookingTime.isBefore(now)) {
                       completedBookings.add({
                         SlectivTexts.bookingDate: date,
                         SlectivTexts.bookingDetails: booking,
@@ -102,37 +67,6 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
                 }
               }
             }
-
-            print("${SlectivTexts.bookingUpcoming}: $upcomingBookings");
-            print("${SlectivTexts.bookingCompleted}: $completedBookings");
-
-            upcomingBookings.sort((a, b) {
-              DateTime dateTimeA = DateTime.parse(a[SlectivTexts.bookingDate]);
-              DateTime dateTimeB = DateTime.parse(b[SlectivTexts.bookingDate]);
-              DateTime timeA = DateTime(
-                dateTimeA.year,
-                dateTimeA.month,
-                dateTimeA.day,
-                int.parse(
-                  a[SlectivTexts.bookingDetails].split('|')[0].split(':')[0],
-                ),
-                int.parse(
-                  a[SlectivTexts.bookingDetails].split('|')[0].split(':')[1],
-                ),
-              );
-              DateTime timeB = DateTime(
-                dateTimeB.year,
-                dateTimeB.month,
-                dateTimeB.day,
-                int.parse(
-                  b[SlectivTexts.bookingDetails].split('|')[0].split(':')[0],
-                ),
-                int.parse(
-                  b[SlectivTexts.bookingDetails].split('|')[0].split(':')[1],
-                ),
-              );
-              return timeA.compareTo(timeB);
-            });
 
             completedBookings.sort((a, b) {
               DateTime dateTimeA = DateTime.parse(a[SlectivTexts.bookingDate]);
@@ -163,61 +97,15 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
             });
 
             return ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(),
               children: [
-                const Text(
-                  SlectivTexts.bookingUpcoming,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
                 const SizedBox(height: 8),
-                ...upcomingBookings
-                    .take(showMoreUpcoming ? upcomingBookings.length : 3)
-                    .map((booking) {
-                      return buildBookingList(
-                        booking[SlectivTexts.bookingDate],
-                        booking[SlectivTexts.bookingDetails],
-                      );
-                    }),
-                if (upcomingBookings.length > 3)
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        showMoreUpcoming = !showMoreUpcoming;
-                      });
-                    },
-                    child: Text(
-                      showMoreUpcoming
-                          ? SlectivTexts.bookingShowLess
-                          : SlectivTexts.bookingShowMore,
-                    ),
-                  ),
-                const SizedBox(height: 24),
-                const Text(
-                  SlectivTexts.bookingCompleted,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                ...completedBookings
-                    .take(showMoreCompleted ? completedBookings.length : 3)
-                    .map((booking) {
-                      return buildBookingList(
-                        booking[SlectivTexts.bookingDate],
-                        booking[SlectivTexts.bookingDetails],
-                      );
-                    }),
-                if (completedBookings.length > 3)
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        showMoreCompleted = !showMoreCompleted;
-                      });
-                    },
-                    child: Text(
-                      showMoreCompleted
-                          ? SlectivTexts.bookingShowLess
-                          : SlectivTexts.bookingShowMore,
-                    ),
-                  ),
+                ...completedBookings.map((booking) {
+                  return buildBookingList(
+                    booking[SlectivTexts.bookingDate],
+                    booking[SlectivTexts.bookingDetails],
+                  );
+                }),
               ],
             );
           }
