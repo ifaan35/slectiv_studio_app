@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 import 'app/routes/app_pages.dart';
-import 'package:midtrans_sdk/midtrans_sdk.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -11,8 +11,6 @@ class TransactionView extends GetView<TransactionController> {
   const TransactionView({super.key});
   @override
   Widget build(BuildContext context) {
-    final TransactionController controller = Get.put(TransactionController());
-
     return Scaffold(
       backgroundColor: SlectivColors.backgroundColor,
       body: SafeArea(
