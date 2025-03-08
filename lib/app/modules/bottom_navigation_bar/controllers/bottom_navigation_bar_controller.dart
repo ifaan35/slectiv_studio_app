@@ -15,18 +15,15 @@ class BottomNavigationBarController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<String> getUserRole() async {
+  Future<void> getUserRole() async {
     User? user = _auth.currentUser;
     if (user != null) {
       DocumentSnapshot userDoc =
           await _firestore.collection('user').doc(user.uid).get();
       String role = (userDoc.data() as Map<String, dynamic>)['role'] ?? 'user';
-      if (role == 'admin') {
-        isUser.value = false;
-      }
-      return role;
+      // Set isUser sesuai dengan role
+      isUser.value = role != 'admin';
     }
-    return 'user';
   }
 
   List<Widget> screens = [
@@ -39,10 +36,9 @@ class BottomNavigationBarController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getUserRole().then((role) {
-      screens[1] =
-          role == 'admin' ? const TransactionView() : const BookingView();
-      update();
+    getUserRole().then((_) {
+      // Pastikan screens diupdate setelah role di-fetch
+      update(); // Force refresh setelah role diterima
     });
   }
 }

@@ -12,23 +12,27 @@ class SlectivBookingDestination extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(BottomNavigationBarController());
-    controller.onInit();
-    return controller.isUser.value
-        ? const NavigationDestination(
-          icon: Icon(FluentIcons.camera_add_24_regular),
-          label: SlectivTexts.bookingLabel,
-          selectedIcon: Icon(
-            FluentIcons.camera_add_24_filled,
-            color: SlectivColors.submitButtonColor,
-          ),
-        )
-        : const NavigationDestination(
-          icon: Icon(FluentIcons.data_usage_24_regular),
-          label: SlectivTexts.transactionLabel,
-          selectedIcon: Icon(
-            FluentIcons.data_usage_24_regular,
-            color: SlectivColors.submitButtonColor,
-          ),
-        );
+    controller.onInit(); // Pastikan controller sudah inisialisasi dengan benar.
+
+    // Menggunakan Obx untuk mendengarkan perubahan nilai isUser
+    return Obx(() {
+      return controller.isUser.value
+          ? const NavigationDestination(
+            icon: Icon(FluentIcons.camera_add_24_regular),
+            label: SlectivTexts.bookingLabel,
+            selectedIcon: Icon(
+              FluentIcons.camera_add_24_filled,
+              color: SlectivColors.submitButtonColor,
+            ),
+          )
+          : const NavigationDestination(
+            icon: Icon(FluentIcons.data_usage_24_regular),
+            label: SlectivTexts.transactionLabel,
+            selectedIcon: Icon(
+              FluentIcons.data_usage_24_regular,
+              color: SlectivColors.submitButtonColor,
+            ),
+          );
+    });
   }
 }
