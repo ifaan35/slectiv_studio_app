@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/booking_view.dart';
 import 'package:slectiv_studio_app/app/modules/gallery/views/gallery_view.dart';
 import 'package:slectiv_studio_app/app/modules/home/views/home_view.dart';
 import 'package:slectiv_studio_app/app/modules/profile/views/profile_view.dart';
-import 'package:slectiv_studio_app/app/modules/transaction/views/transaction_view.dart';
 
 class BottomNavigationBarController extends GetxController {
   var selectedIndex = 0.obs;
