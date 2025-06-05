@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,39 +27,150 @@ class BookingController extends GetxController {
 
   var calendarFormat;
 
+  // Add timer variable
+  Timer? _refreshTimer;
+  // Add status for auto refresh
+  var isAutoRefreshEnabled = true.obs;
+
   @override
   void onInit() {
     super.onInit();
     fetchBookings();
     _scheduleDailyReset();
+    // Start auto-refresh timer
+    startAutoRefresh();
+  }
+
+  @override
+  void onClose() {
+    // Make sure to clean up timer when controller is disposed
+    _refreshTimer?.cancel();
+    super.onClose();
+  }
+
+  // Function to start auto-refresh
+  void startAutoRefresh() {
+    // Cancel running timer (if any)
+    _refreshTimer?.cancel();
+
+    // Create new timer that will call fetchBookings() every 1 second
+    _refreshTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (isAutoRefreshEnabled.value) {
+        print('Auto-refresh: Updating booking data...');
+        fetchBookings();
+      }
+    });
+
+    print('Auto-refresh started: Data will be updated every 1 second');
+  }
+
+  // Function to stop auto-refresh
+  void stopAutoRefresh() {
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+    print('Auto-refresh stopped');
+  }
+
+  // Function to toggle auto-refresh
+  void toggleAutoRefresh() {
+    isAutoRefreshEnabled.value = !isAutoRefreshEnabled.value;
+
+    if (isAutoRefreshEnabled.value) {
+      Get.snackbar(
+        'Auto-refresh Active',
+        'Booking data will be automatically updated every 10 seconds',
+        backgroundColor: SlectivColors.positifSnackbarColor,
+        colorText: Colors.white,
+        duration: Duration(seconds: 2),
+      );
+
+      // If timer is not running, start new timer
+      if (_refreshTimer == null || !_refreshTimer!.isActive) {
+        startAutoRefresh();
+      }
+    } else {
+      Get.snackbar(
+        'Auto-refresh Inactive',
+        'Booking data will not be automatically updated',
+        backgroundColor: Colors.grey,
+        colorText: Colors.white,
+        duration: Duration(seconds: 2),
+      );
+      // Timer keeps running, but won't call fetchBookings()
+    }
   }
 
   Future<void> fetchBookings() async {
-    var snapshot = await _firestore.collection(SlectivTexts.bookings).get();
-    bookings.clear();
-    for (var doc in snapshot.docs) {
-      String date =
-          (doc[SlectivTexts.bookingDate] as Timestamp)
-              .toDate()
-              .toIso8601String()
-              .split('T')
-              .first;
-      if (!bookings.containsKey(date)) {
-        bookings[date] = [];
+    try {
+      var snapshot = await _firestore.collection(SlectivTexts.bookings).get();
+
+      // Save old booking state for comparison
+      Map<String, List<String>> oldBookings = Map.from(bookings);
+
+      // Reset and fill with new data
+      bookings.clear();
+      for (var doc in snapshot.docs) {
+        String date =
+            (doc[SlectivTexts.bookingDate] as Timestamp)
+                .toDate()
+                .toIso8601String()
+                .split('T')
+                .first;
+        if (!bookings.containsKey(date)) {
+          bookings[date] = [];
+        }
+        String time = doc[SlectivTexts.bookingTime];
+        String color = doc[SlectivTexts.bookingColor];
+        String person = doc[SlectivTexts.bookingPerson];
+        String email =
+            doc.data().containsKey(SlectivTexts.profileEmail)
+                ? doc[SlectivTexts.profileEmail]
+                : SlectivTexts.bookingUnknown;
+        String bookingDetails = "$time|$color|$person|$email";
+        bookings[date]?.add(bookingDetails);
       }
-      String time = doc[SlectivTexts.bookingTime];
-      String color = doc[SlectivTexts.bookingColor];
-      String person = doc[SlectivTexts.bookingPerson];
-      String email =
-          doc.data().containsKey(SlectivTexts.profileEmail)
-              ? doc[SlectivTexts.profileEmail]
-              : SlectivTexts.bookingUnknown;
-      String bookingDetails = "$time|$color|$person|$email";
-      bookings[date]?.add(bookingDetails);
-      print(
-        "${SlectivTexts.bookingFetched} $bookingDetails ${SlectivTexts.bookingForDate} $date",
+
+      // Notification if there are booking data changes on selected date
+      String selectedDateStr =
+          selectedDay.value.toIso8601String().split('T').first;
+      bool hasChangesOnSelectedDate = _hasBookingChanges(
+        oldBookings,
+        bookings,
+        selectedDateStr,
       );
+
+      if (hasChangesOnSelectedDate) {
+        update(); // Trigger UI update
+      }
+    } catch (e) {
+      print('Error fetching bookings: $e');
     }
+  }
+
+  // Helper method to check booking changes
+  bool _hasBookingChanges(
+    Map<String, List<String>> oldBookings,
+    Map<String, List<String>> newBookings,
+    String dateToCheck,
+  ) {
+    // If one doesn't have data on the checked date
+    if (oldBookings[dateToCheck] == null && newBookings[dateToCheck] != null)
+      return true;
+    if (oldBookings[dateToCheck] != null && newBookings[dateToCheck] == null)
+      return true;
+    if (oldBookings[dateToCheck] == null && newBookings[dateToCheck] == null)
+      return false;
+
+    // Compare list length
+    if (oldBookings[dateToCheck]!.length != newBookings[dateToCheck]!.length)
+      return true;
+
+    // Compare content
+    for (var booking in newBookings[dateToCheck]!) {
+      if (!oldBookings[dateToCheck]!.contains(booking)) return true;
+    }
+
+    return false;
   }
 
   Future<void> saveBooking() async {
@@ -157,7 +269,7 @@ class BookingController extends GetxController {
           "enabled_payments": [
             "gopay",
             "shopeepay",
-          ], // Pastikan "dana" ada di sini
+          ], // Make sure "dana" is here
           "customer_details": {
             "first_name": "Budi",
             "last_name": "Pratama",
@@ -170,7 +282,7 @@ class BookingController extends GetxController {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         print('Response data: $responseData');
-        // Periksa apakah "dana" ada di dalam daftar metode pembayaran
+        // Check if "dana" exists in the payment method list
       }
 
       if (response.statusCode == 201) {

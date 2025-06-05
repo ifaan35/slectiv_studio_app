@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SlectivColors {
+  // -- Primary & Secondary Colors (TAMBAHAN BARU)
+  static const Color primaryColor = Color(
+    0xFF0404B2,
+  ); // Sama dengan submitButtonColor
+  static const Color secondaryColor = Color(
+    0xFF198251,
+  ); // Sama dengan positifSnackbarColor
+
   // -- Background Colors
   static const Color backgroundColor = Color(0xFFECE7DD);
   static const Color bottomNVBackgroundColor = Color(0xFFCCCCCC);

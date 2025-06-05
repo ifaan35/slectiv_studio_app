@@ -26,6 +26,13 @@ class LoginScreenController extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+      return false;
     } catch (e) {
       return false;
     }

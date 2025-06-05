@@ -15,7 +15,6 @@ Future<void> main() async {
       storageBucket: "gs://slectiv-studio-project.appspot.com",
     ),
   );
-  await Firebase.initializeApp();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
