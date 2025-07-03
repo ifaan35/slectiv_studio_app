@@ -25,9 +25,7 @@ class SlectivFormForgetPassword extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-    
           // -- Email
-          
           Text(
             SlectivTexts.email,
             style: GoogleFonts.spaceGrotesk(
@@ -41,7 +39,8 @@ class SlectivFormForgetPassword extends StatelessWidget {
           const SizedBox(height: 8),
           TextFormField(
             controller: forgetPasswordController.emailController,
-            validator: (value) => SlectiValidator.forgetPasswordEmailValidate(value),
+            validator:
+                (value) => SlectiValidator.forgetPasswordEmailValidate(value),
             decoration: InputDecoration(
               hintText: SlectivTexts.emailHintText,
               hintStyle: GoogleFonts.spaceGrotesk(
@@ -63,9 +62,8 @@ class SlectivFormForgetPassword extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 48),
-    
+
           // -- Forget Password Button
-    
           SlectiveWidgetButton(
             buttonName: SlectivTexts.sendForgetPassword,
             onPressed: () async {
@@ -76,27 +74,30 @@ class SlectivFormForgetPassword extends StatelessWidget {
                       height: 100,
                       width: 100,
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(SlectivColors.circularProgressColor),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          SlectivColors.circularProgressColor,
+                        ),
                       ),
                     ),
                   ),
                   barrierDismissible: false,
                 );
                 await Future.delayed(const Duration(seconds: 3));
-    
-                forgetPasswordController.resetPassword(forgetPasswordController.emailController.text);
-    
+
+                forgetPasswordController.resetPassword(
+                  forgetPasswordController.emailController.text,
+                );
+
                 Get.back();
-    
+
                 forgetPasswordController.clearForm();
               }
             },
             backgroundColor: SlectivColors.submitButtonColor,
           ),
           const SizedBox(height: 24),
-    
+
           // -- Back to login Button
-    
           SlectiveWidgetButton(
             buttonName: SlectivTexts.backToLogin,
             onPressed: () => Get.off(() => LoginScreenView()),

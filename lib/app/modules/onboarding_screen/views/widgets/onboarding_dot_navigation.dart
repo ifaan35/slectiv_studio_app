@@ -4,9 +4,7 @@ import 'package:slectiv_studio_app/app/modules/onboarding_screen/controllers/onb
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SlectivonBoardingDotNavigation extends StatelessWidget {
-  const SlectivonBoardingDotNavigation({
-    super.key,
-  });
+  const SlectivonBoardingDotNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +16,11 @@ class SlectivonBoardingDotNavigation extends StatelessWidget {
         onDotClicked: onBoardingcontroller.dotNavigationClick,
         controller: onBoardingcontroller.pageController,
         count: 3,
-        effect: const ExpandingDotsEffect(activeDotColor: Colors.black, dotHeight: 6),
-      )
+        effect: const ExpandingDotsEffect(
+          activeDotColor: Colors.black,
+          dotHeight: 6,
+        ),
+      ),
     );
   }
 }

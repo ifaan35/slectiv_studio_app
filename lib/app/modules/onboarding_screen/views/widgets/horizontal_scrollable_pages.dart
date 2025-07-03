@@ -5,10 +5,7 @@ import 'package:slectiv_studio_app/utils/constants/image_strings.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 
 class SlectivScrollablePages extends StatelessWidget {
-  const SlectivScrollablePages({
-    super.key,
-    required this.onBoardingcontroller,
-  });
+  const SlectivScrollablePages({super.key, required this.onBoardingcontroller});
 
   final OnboardingScreenController onBoardingcontroller;
 
@@ -19,18 +16,18 @@ class SlectivScrollablePages extends StatelessWidget {
       onPageChanged: onBoardingcontroller.updatePageIndicator,
       children: const [
         OnBoardingPage(
-          lottie: SlectivImages.onBoardingAnimation1,  
-          title: SlectivTexts.onBoardingTitle1, 
-          subtitle: SlectivTexts.onBoardingSubtitle1
+          lottie: SlectivImages.onBoardingAnimation1,
+          title: SlectivTexts.onBoardingTitle1,
+          subtitle: SlectivTexts.onBoardingSubtitle1,
         ),
         OnBoardingPage(
-          lottie: SlectivImages.onBoardingAnimation2, 
-          title: SlectivTexts.onBoardingTitle2, 
+          lottie: SlectivImages.onBoardingAnimation2,
+          title: SlectivTexts.onBoardingTitle2,
           subtitle: SlectivTexts.onBoardingSubtitle2,
         ),
         OnBoardingPage(
           lottie: SlectivImages.onBoardingAnimation3,
-          title: SlectivTexts.onBoardingTitle3, 
+          title: SlectivTexts.onBoardingTitle3,
           subtitle: SlectivTexts.onBoardingSubtitle3,
         ),
       ],

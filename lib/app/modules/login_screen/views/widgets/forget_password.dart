@@ -15,8 +15,17 @@ class SlectivForgetPassword extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () => Get.to(ForgetPasswordScreenView()),
-          child: Text(SlectivTexts.forgetPassword, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SlectivColors.blackColor))),
-          )
+          child: Text(
+            SlectivTexts.forgetPassword,
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: SlectivColors.blackColor,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

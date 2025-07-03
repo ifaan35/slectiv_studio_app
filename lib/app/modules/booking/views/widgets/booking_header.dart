@@ -1,8 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:slectiv_studio_app/app/modules/booking/views/widgets/booking_history.dart';
-import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 
 class SlectivBookingHeader extends StatelessWidget {
@@ -14,22 +14,46 @@ class SlectivBookingHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
-          SlectivTexts.bookingTitle,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: SlectivColors.blackColor,
+        // Back Button
+        GestureDetector(
+          onTap: () => Get.back(),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20,
+            ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 4.0),
-          child: IconButton(
-            onPressed: () => Get.to(() => const SlectivBookingHistory()),
-            icon: const Icon(
+
+        // Title
+        Text(
+          SlectivTexts.bookingTitle,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+
+        // History Button
+        GestureDetector(
+          onTap: () => Get.to(() => const SlectivBookingHistory()),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
               FluentIcons.cart_20_filled,
-              size: 40,
-              color: SlectivColors.blackColor,
+              color: Colors.white,
+              size: 20,
             ),
           ),
         ),

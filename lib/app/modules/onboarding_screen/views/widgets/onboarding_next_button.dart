@@ -4,9 +4,7 @@ import 'package:slectiv_studio_app/app/modules/onboarding_screen/controllers/onb
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 
 class SlectivonBoardingNextButton extends StatelessWidget {
-  const SlectivonBoardingNextButton({
-    super.key,
-  });
+  const SlectivonBoardingNextButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +20,12 @@ class SlectivonBoardingNextButton extends StatelessWidget {
             color: SlectivColors.blackColor,
             borderRadius: BorderRadius.circular(50),
           ),
-          child: const Icon(FluentIcons.arrow_right_20_regular, color: SlectivColors.whiteColor)
+          child: const Icon(
+            FluentIcons.arrow_right_20_regular,
+            color: SlectivColors.whiteColor,
+          ),
         ),
-      )
+      ),
     );
   }
 }

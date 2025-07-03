@@ -4,8 +4,8 @@ import 'package:slectiv_studio_app/utils/constants/colors.dart';
 
 class SlectivLoginHeaderText extends StatelessWidget {
   const SlectivLoginHeaderText({
-    super.key, 
-    required this.title, 
+    super.key,
+    required this.title,
     required this.subtitle,
   });
 
@@ -17,8 +17,26 @@ class SlectivLoginHeaderText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: SlectivColors.titleColor)),),
-        Text(subtitle, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: SlectivColors.blackColor)),),
+        Text(
+          title,
+          style: GoogleFonts.spaceGrotesk(
+            textStyle: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w700,
+              color: SlectivColors.titleColor,
+            ),
+          ),
+        ),
+        Text(
+          subtitle,
+          style: GoogleFonts.spaceGrotesk(
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: SlectivColors.blackColor,
+            ),
+          ),
+        ),
       ],
     );
   }
