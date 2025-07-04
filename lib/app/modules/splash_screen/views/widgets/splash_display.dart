@@ -121,15 +121,7 @@ class _SlectivSplashDisplayState extends State<SlectivSplashDisplay>
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: SlectivColors.primaryBlue.withOpacity(
-                                  0.1,
-                                ),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
+                            boxShadow: [],
                           ),
                           child: const CenterLogo(
                             logo: SlectivImages.applogo,
