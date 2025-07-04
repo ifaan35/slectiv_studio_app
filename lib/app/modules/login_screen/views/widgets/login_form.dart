@@ -29,12 +29,12 @@ class SlectivLoginForm extends StatelessWidget {
         children: [
           // -- Email
           Text(
-            SlectivTexts.email,
+            "Email",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: Color(0xFF212529),
               ),
             ),
           ),
@@ -44,34 +44,56 @@ class SlectivLoginForm extends StatelessWidget {
             controller: loginController.emailController,
             validator: (value) => SlectiValidator.emailValidate(value),
             decoration: InputDecoration(
-              hintText: SlectivTexts.emailHintText,
+              hintText: "Enter your Email",
               hintStyle: GoogleFonts.spaceGrotesk(
                 textStyle: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: SlectivColors.hintColor,
+                  color: Color(0xFF9CA3AF),
                 ),
               ),
-              fillColor: const Color(0xFFF6F6F6),
+              fillColor: const Color(0xFFF3F4F6),
               filled: true,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SlectivColors.blackColor),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: SlectivColors.primaryBlue,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+            ),
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF212529),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           Text(
-            SlectivTexts.password,
+            "Password",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: Color(0xFF212529),
               ),
             ),
           ),
@@ -84,37 +106,60 @@ class SlectivLoginForm extends StatelessWidget {
               validator: (value) => SlectiValidator.passwordValidate(value),
               obscureText: loginController.hidePassword.value,
               decoration: InputDecoration(
-                hintText: SlectivTexts.passwordHintText,
+                hintText: "Enter your Password",
                 hintStyle: GoogleFonts.spaceGrotesk(
                   textStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: SlectivColors.hintColor,
+                    color: Color(0xFF9CA3AF),
                   ),
                 ),
-                fillColor: const Color(0xFFF6F6F6),
+                fillColor: const Color(0xFFF3F4F6),
                 filled: true,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: SlectivColors.blackColor),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: SlectivColors.primaryBlue,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                suffixIcon: IconButton(
-                  onPressed:
-                      () =>
-                          loginController.hidePassword.value =
-                              !loginController.hidePassword.value,
-                  icon: Icon(
-                    loginController.hidePassword.value
-                        ? FluentIcons.eye_off_20_regular
-                        : FluentIcons.eye_20_regular,
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.red, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.red, width: 2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                suffixIcon: Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    onPressed:
+                        () =>
+                            loginController.hidePassword.value =
+                                !loginController.hidePassword.value,
+                    icon: Icon(
+                      loginController.hidePassword.value
+                          ? FluentIcons.eye_off_20_regular
+                          : FluentIcons.eye_20_regular,
+                      color: const Color(0xFF6B7280),
+                    ),
                   ),
                 ),
               ),
-              style: GoogleFonts.plusJakartaSans(
-                textStyle: const TextStyle(fontSize: 14),
+              style: GoogleFonts.spaceGrotesk(
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF212529),
+                ),
               ),
             ),
           ),
@@ -122,30 +167,36 @@ class SlectivLoginForm extends StatelessWidget {
           const SizedBox(height: 36),
 
           // -- Login Button
-          SlectiveWidgetButton(
-            buttonName: SlectivTexts.login,
-            onPressed: () async {
-              Get.dialog(
-                const Center(
-                  child: SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        SlectivColors.circularProgressColor,
-                      ),
-                    ),
-                  ),
-                ),
-                barrierDismissible: false,
-              );
-              await Future.delayed(const Duration(seconds: 3));
+          Obx(
+            () => SlectiveWidgetButton(
+              buttonName: SlectivTexts.login,
+              onPressed:
+                  loginController.isFormValid.value
+                      ? () async {
+                        Get.dialog(
+                          const Center(
+                            child: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  SlectivColors.circularProgressColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          barrierDismissible: false,
+                        );
+                        await Future.delayed(const Duration(seconds: 3));
 
-              loginController.loginValidation();
+                        loginController.loginValidation();
 
-              Get.back();
-            },
-            backgroundColor: SlectivColors.submitButtonColor,
+                        Get.back();
+                      }
+                      : null,
+              backgroundColor: SlectivColors.submitButtonColor,
+              isEnabled: loginController.isFormValid.value,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

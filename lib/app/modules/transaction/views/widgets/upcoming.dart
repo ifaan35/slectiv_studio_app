@@ -126,19 +126,43 @@ class Upcoming extends StatelessWidget {
           Positioned(
             right: 50,
             bottom: -15,
-            child: FloatingActionButton(
-              onPressed:
-                  () => controller.showEditDialog(
-                    date,
-                    time,
-                    color,
-                    person,
-                    email,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    SlectivColors.primaryBlue,
+                    SlectivColors.secondaryBlue,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: SlectivColors.primaryBlue.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
-              backgroundColor: const Color.fromARGB(255, 211, 211, 247),
-              mini: true,
-              elevation: 3,
-              child: const Icon(Icons.edit, size: 20),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap:
+                      () => controller.showEditDialog(
+                        date,
+                        time,
+                        color,
+                        person,
+                        email,
+                      ),
+                  child: const Icon(Icons.edit, size: 20, color: Colors.white),
+                ),
+              ),
             ),
           ),
 
@@ -146,14 +170,36 @@ class Upcoming extends StatelessWidget {
           Positioned(
             right: 0,
             bottom: -15,
-            child: FloatingActionButton(
-              onPressed:
-                  () => controller.showDeleteConfirmation(date, time, email),
-              backgroundColor:
-                  SlectivColors.cancelAndNegatifSnackbarButtonColor,
-              mini: true,
-              elevation: 3,
-              child: const Icon(Icons.delete, size: 20, color: Colors.white),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: SlectivColors.cancelAndNegatifSnackbarButtonColor
+                        .withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap:
+                      () =>
+                          controller.showDeleteConfirmation(date, time, email),
+                  child: const Icon(
+                    Icons.delete,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ),
         ],

@@ -27,12 +27,12 @@ class SlectivFormForgetPassword extends StatelessWidget {
         children: [
           // -- Email
           Text(
-            SlectivTexts.email,
+            "Email",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: Color(0xFF212529),
               ),
             ),
           ),
@@ -42,66 +42,93 @@ class SlectivFormForgetPassword extends StatelessWidget {
             validator:
                 (value) => SlectiValidator.forgetPasswordEmailValidate(value),
             decoration: InputDecoration(
-              hintText: SlectivTexts.emailHintText,
+              hintText: "Enter your email",
               hintStyle: GoogleFonts.spaceGrotesk(
                 textStyle: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: SlectivColors.hintColor,
+                  color: Color(0xFF9CA3AF),
                 ),
               ),
-              fillColor: const Color(0xFFF6F6F6),
+              fillColor: const Color(0xFFF3F4F6),
               filled: true,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SlectivColors.blackColor),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: SlectivColors.primaryBlue,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+            ),
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF212529),
               ),
             ),
           ),
           const SizedBox(height: 48),
 
           // -- Forget Password Button
-          SlectiveWidgetButton(
-            buttonName: SlectivTexts.sendForgetPassword,
-            onPressed: () async {
-              if (forgetPasswordFormKey.currentState!.validate()) {
-                Get.dialog(
-                  const Center(
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          SlectivColors.circularProgressColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  barrierDismissible: false,
-                );
-                await Future.delayed(const Duration(seconds: 3));
+          Obx(
+            () => SlectiveWidgetButton(
+              buttonName: SlectivTexts.sendForgetPassword,
+              onPressed:
+                  forgetPasswordController.isFormValid.value
+                      ? () async {
+                        if (forgetPasswordFormKey.currentState!.validate()) {
+                          Get.dialog(
+                            const Center(
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    SlectivColors.circularProgressColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            barrierDismissible: false,
+                          );
+                          await Future.delayed(const Duration(seconds: 3));
 
-                forgetPasswordController.resetPassword(
-                  forgetPasswordController.emailController.text,
-                );
+                          forgetPasswordController.resetPassword(
+                            forgetPasswordController.emailController.text,
+                          );
 
-                Get.back();
+                          Get.back();
 
-                forgetPasswordController.clearForm();
-              }
-            },
-            backgroundColor: SlectivColors.submitButtonColor,
+                          forgetPasswordController.clearForm();
+                        }
+                      }
+                      : null,
+              backgroundColor: SlectivColors.submitButtonColor,
+              isEnabled: forgetPasswordController.isFormValid.value,
+            ),
           ),
           const SizedBox(height: 24),
 
           // -- Back to login Button
-          SlectiveWidgetButton(
+          SlectiveCancelButton(
             buttonName: SlectivTexts.backToLogin,
             onPressed: () => Get.off(() => LoginScreenView()),
-            backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
           ),
         ],
       ),

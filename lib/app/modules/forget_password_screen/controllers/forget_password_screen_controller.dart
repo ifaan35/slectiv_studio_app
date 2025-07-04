@@ -8,7 +8,25 @@ import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 class ForgetPasswordScreenController extends GetxController {
   // -- Variables
   final emailController = TextEditingController();
+  final isFormValid = false.obs;
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  @override
+  void onInit() {
+    super.onInit();
+    emailController.addListener(_updateFormValidation);
+  }
+
+  @override
+  void onClose() {
+    emailController.removeListener(_updateFormValidation);
+    emailController.dispose();
+    super.onClose();
+  }
+
+  void _updateFormValidation() {
+    isFormValid.value = emailController.text.trim().isNotEmpty;
+  }
 
   void resetPassword(String email) async {
     if (email.isNotEmpty && GetUtils.isEmail(email)) {
@@ -35,5 +53,6 @@ class ForgetPasswordScreenController extends GetxController {
 
   void clearForm() {
     emailController.clear();
+    isFormValid.value = false;
   }
 }

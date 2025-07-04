@@ -18,6 +18,42 @@ class RegisterScreenController extends GetxController {
   final confirmPassword = TextEditingController();
   final hidePassword = true.obs;
   final hideConfirmPassword = true.obs;
+  final isFormValid = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Listen to text changes in all controllers
+    name.addListener(_updateFormValidation);
+    phoneNumber.addListener(_updateFormValidation);
+    email.addListener(_updateFormValidation);
+    password.addListener(_updateFormValidation);
+    confirmPassword.addListener(_updateFormValidation);
+  }
+
+  @override
+  void onClose() {
+    name.removeListener(_updateFormValidation);
+    phoneNumber.removeListener(_updateFormValidation);
+    email.removeListener(_updateFormValidation);
+    password.removeListener(_updateFormValidation);
+    confirmPassword.removeListener(_updateFormValidation);
+    name.dispose();
+    phoneNumber.dispose();
+    email.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+    super.onClose();
+  }
+
+  void _updateFormValidation() {
+    isFormValid.value =
+        name.text.trim().isNotEmpty &&
+        phoneNumber.text.trim().isNotEmpty &&
+        email.text.trim().isNotEmpty &&
+        password.text.trim().isNotEmpty &&
+        confirmPassword.text.trim().isNotEmpty;
+  }
 
   void clearForm() {
     name.clear();
@@ -25,6 +61,7 @@ class RegisterScreenController extends GetxController {
     email.clear();
     password.clear();
     confirmPassword.clear();
+    isFormValid.value = false;
   }
 
   Future<bool> isUsernameExists(String email) async {

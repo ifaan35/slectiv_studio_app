@@ -20,20 +20,35 @@ class SlectivLoginHeaderText extends StatelessWidget {
         Text(
           title,
           style: GoogleFonts.spaceGrotesk(
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w700,
-              color: SlectivColors.titleColor,
+              color: SlectivColors.primaryBlue,
+              height: 1.2,
             ),
           ),
         ),
+        const SizedBox(height: 8),
         Text(
           subtitle,
           style: GoogleFonts.spaceGrotesk(
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: SlectivColors.blackColor,
+              color: SlectivColors.textGray,
+              height: 1.4,
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        // Decorative line
+        Container(
+          width: 40,
+          height: 3,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2),
+            gradient: LinearGradient(
+              colors: [SlectivColors.primaryBlue, SlectivColors.secondaryBlue],
             ),
           ),
         ),

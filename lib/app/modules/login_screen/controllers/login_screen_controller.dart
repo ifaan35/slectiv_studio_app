@@ -11,15 +11,40 @@ class LoginScreenController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final hidePassword = true.obs;
+  final isFormValid = false.obs;
 
   // final CollectionReference _userCollection =
   //     FirebaseFirestore.instance.collection('user');
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  @override
+  void onInit() {
+    super.onInit();
+    // Listen to text changes in both controllers
+    emailController.addListener(_updateFormValidation);
+    passwordController.addListener(_updateFormValidation);
+  }
+
+  @override
+  void onClose() {
+    emailController.removeListener(_updateFormValidation);
+    passwordController.removeListener(_updateFormValidation);
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
+
+  void _updateFormValidation() {
+    isFormValid.value =
+        emailController.text.trim().isNotEmpty &&
+        passwordController.text.trim().isNotEmpty;
+  }
+
   void clearForm() {
     emailController.clear();
     passwordController.clear();
+    isFormValid.value = false;
   }
 
   Future<bool> checkCredentials(String email, String password) async {

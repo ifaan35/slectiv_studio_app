@@ -392,20 +392,38 @@ class TransactionController extends GetxController {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: SlectivColors.primaryBlue, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () => Get.back(),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: SlectivColors.primaryBlue,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-          TextButton(
-            onPressed: () => updateBooking(date, time, email),
-            child: Text(
-              'Save',
-              style: TextStyle(color: SlectivColors.submitButtonColor),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  SlectivColors.primaryBlue,
+                  SlectivColors.secondaryBlue,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () => updateBooking(date, time, email),
+              child: const Text('Save', style: TextStyle(color: Colors.white)),
             ),
           ),
         ],
@@ -423,22 +441,36 @@ class TransactionController extends GetxController {
         ),
         content: const Text('Are you sure you want to delete this booking?'),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: SlectivColors.blackColor),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: SlectivColors.primaryBlue, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () => Get.back(),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: SlectivColors.primaryBlue,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ),
-          TextButton(
-            onPressed: () {
-              Get.back();
-              deleteBooking(date, time, email);
-            },
-            child: Text(
-              'Delete',
-              style: TextStyle(
-                color: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+          Container(
+            decoration: BoxDecoration(
+              color: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () {
+                Get.back();
+                deleteBooking(date, time, email);
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),

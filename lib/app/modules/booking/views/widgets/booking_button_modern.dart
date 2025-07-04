@@ -142,14 +142,24 @@ class SlectivBookingButton extends StatelessWidget {
                 ),
               ),
               actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text(
-                    SlectivTexts.bookingNo,
-                    style: GoogleFonts.spaceGrotesk(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: SlectivColors.hintColor,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: SlectivColors.primaryBlue,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(
+                      SlectivTexts.bookingNo,
+                      style: GoogleFonts.spaceGrotesk(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: SlectivColors.primaryBlue,
+                      ),
                     ),
                   ),
                 ),

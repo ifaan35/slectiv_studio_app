@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:slectiv_studio_app/app/modules/forget_password_screen/views/widgets/forget_password_form.dart';
 import 'package:slectiv_studio_app/app/modules/forget_password_screen/views/widgets/forget_password_header.dart';
 import 'package:slectiv_studio_app/app/modules/login_screen/views/widgets/authentication_header.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
+import 'package:slectiv_studio_app/utils/constants/image_strings.dart';
 import '../controllers/forget_password_screen_controller.dart';
 
 class ForgetPasswordScreenView extends GetView<ForgetPasswordScreenController> {
@@ -15,24 +17,102 @@ class ForgetPasswordScreenView extends GetView<ForgetPasswordScreenController> {
   Widget build(BuildContext context) {
     final forgetPasswordController = Get.put(ForgetPasswordScreenController());
     return Scaffold(
-      backgroundColor: SlectivColors.backgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // -- Authentication Header
-                const SizedBox(height: 24),
-                const SlectivAuthenticationHeader(),
+                const SizedBox(height: 60),
 
-                // -- Forget Password Header
-                const SizedBox(height: 36),
-                const SlectivForgetPasswordHeader(),
+                // Logo section
+                Container(
+                  width: 120,
+                  height: 120,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xFFF8F9FA),
+                    border: Border.all(
+                      color: const Color(0xFFE9ECEF),
+                      width: 1,
+                    ),
+                  ),
+                  child: const Image(
+                    image: AssetImage(SlectivImages.applogo),
+                    fit: BoxFit.contain,
+                  ),
+                ),
 
-                // -- Forget Password Form
                 const SizedBox(height: 24),
+
+                // Brand text
+                Text(
+                  "SLECTIV STUDIO",
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF212529),
+                    letterSpacing: 1.5,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                // Decorative line
+                Container(
+                  width: 60,
+                  height: 3,
+                  decoration: BoxDecoration(
+                    color: SlectivColors.primaryBlue,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                Text(
+                  "Smile, Click, And Make Everlasting",
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF6C757D),
+                  ),
+                ),
+
+                const SizedBox(height: 48),
+
+                // Forget Password Header
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Forget Password?",
+                        style: GoogleFonts.spaceGrotesk(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF212529),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "No worries, we'll send you reset instructions",
+                        style: GoogleFonts.spaceGrotesk(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF6C757D),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                // Forget Password Form
                 SlectivFormForgetPassword(
                   forgetPasswordFormKey: forgetPasswordFormKey,
                   forgetPasswordController: forgetPasswordController,

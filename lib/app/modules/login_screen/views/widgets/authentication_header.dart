@@ -12,19 +12,31 @@ class SlectivAuthenticationHeader extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          const SizedBox(
-            height: 46.47,
-            width: 125,
-            child: Image(image: AssetImage(SlectivImages.applogo)),
+          // Modern logo container
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: SlectivColors.lightBlueBackground,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: SlectivColors.primaryBlue.withOpacity(0.1),
+                width: 1,
+              ),
+            ),
+            child: const SizedBox(
+              height: 46.47,
+              width: 125,
+              child: Image(image: AssetImage(SlectivImages.applogo)),
+            ),
           ),
           const SizedBox(height: 16),
           Text(
             SlectivTexts.brandSubtitle,
             style: GoogleFonts.spaceGrotesk(
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: SlectivColors.textGray,
               ),
             ),
           ),

@@ -28,12 +28,12 @@ class SlectivRegisterForm extends StatelessWidget {
         children: [
           // -- Name
           Text(
-            SlectivTexts.name,
+            "Full Name",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: Color(0xFF212529),
               ),
             ),
           ),
@@ -43,35 +43,57 @@ class SlectivRegisterForm extends StatelessWidget {
             controller: registerController.name,
             validator: (value) => SlectiValidator.nameValidate(value),
             decoration: InputDecoration(
-              hintText: SlectivTexts.nameHintText,
+              hintText: "Enter your full name",
               hintStyle: GoogleFonts.spaceGrotesk(
                 textStyle: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: SlectivColors.hintColor,
+                  color: Color(0xFF9CA3AF),
                 ),
               ),
-              fillColor: const Color(0xFFF6F6F6),
+              fillColor: const Color(0xFFF3F4F6),
               filled: true,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SlectivColors.blackColor),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: SlectivColors.primaryBlue,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+            ),
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF212529),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           // -- Phone Number
           Text(
-            SlectivTexts.phoneNumber,
+            "Phone Number",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: Color(0xFF212529),
               ),
             ),
           ),
@@ -81,35 +103,57 @@ class SlectivRegisterForm extends StatelessWidget {
             controller: registerController.phoneNumber,
             validator: (value) => SlectiValidator.phoneNumberValidate(value),
             decoration: InputDecoration(
-              hintText: SlectivTexts.phoneNumberHintText,
+              hintText: "Enter your phone number",
               hintStyle: GoogleFonts.spaceGrotesk(
                 textStyle: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: SlectivColors.hintColor,
+                  color: Color(0xFF9CA3AF),
                 ),
               ),
-              fillColor: const Color(0xFFF6F6F6),
+              fillColor: const Color(0xFFF3F4F6),
               filled: true,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SlectivColors.blackColor),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: SlectivColors.primaryBlue,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+            ),
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF212529),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           // -- Email
           Text(
-            SlectivTexts.email,
+            "Email",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: SlectivColors.blackColor,
+                color: Color(0xFF212529),
               ),
             ),
           ),
@@ -119,30 +163,52 @@ class SlectivRegisterForm extends StatelessWidget {
             controller: registerController.email,
             validator: (value) => SlectiValidator.emailValidate(value),
             decoration: InputDecoration(
-              hintText: SlectivTexts.emailHintText,
+              hintText: "Enter your email",
               hintStyle: GoogleFonts.spaceGrotesk(
                 textStyle: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: SlectivColors.hintColor,
+                  color: Color(0xFF9CA3AF),
                 ),
               ),
-              fillColor: const Color(0xFFF6F6F6),
+              fillColor: const Color(0xFFF3F4F6),
               filled: true,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SlectivColors.blackColor),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: SlectivColors.primaryBlue,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+            ),
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF212529),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           // -- Password
           Text(
-            SlectivTexts.password,
+            "Password",
             style: GoogleFonts.spaceGrotesk(
               textStyle: const TextStyle(
                 fontSize: 18,
@@ -255,76 +321,85 @@ class SlectivRegisterForm extends StatelessWidget {
           const SizedBox(height: 36),
 
           // -- Register Button
-          SlectiveWidgetButton(
-            buttonName: SlectivTexts.register,
-            onPressed: () async {
-              if (registerFormKey.currentState?.validate() ?? false) {
-                // Show loading dialog
-                Get.dialog(
-                  const Center(
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          SlectivColors.circularProgressColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  barrierDismissible: false,
-                );
+          Obx(
+            () => SlectiveWidgetButton(
+              buttonName: SlectivTexts.register,
+              onPressed:
+                  registerController.isFormValid.value
+                      ? () async {
+                        if (registerFormKey.currentState?.validate() ?? false) {
+                          // Show loading dialog
+                          Get.dialog(
+                            const Center(
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    SlectivColors.circularProgressColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            barrierDismissible: false,
+                          );
 
-                try {
-                  String name = registerController.name.text;
-                  String phoneNumber = registerController.phoneNumber.text;
-                  String email = registerController.email.text;
-                  String password = registerController.password.text;
+                          try {
+                            String name = registerController.name.text;
+                            String phoneNumber =
+                                registerController.phoneNumber.text;
+                            String email = registerController.email.text;
+                            String password = registerController.password.text;
 
-                  await registerController.registerUser(
-                    name,
-                    phoneNumber,
-                    email,
-                    password,
-                  );
+                            await registerController.registerUser(
+                              name,
+                              phoneNumber,
+                              email,
+                              password,
+                            );
 
-                  // Hide loading dialog
-                  Get.back();
+                            // Hide loading dialog
+                            Get.back();
 
-                  // Show success snackbar
-                  Get.snackbar(
-                    SlectivTexts.registerSuccessfullTitle,
-                    SlectivTexts.registerSuccessfullSubtitle,
-                    backgroundColor: SlectivColors.positifSnackbarColor,
-                    colorText: SlectivColors.whiteColor,
-                    duration: const Duration(seconds: 4),
-                  );
+                            // Show success snackbar
+                            Get.snackbar(
+                              SlectivTexts.registerSuccessfullTitle,
+                              SlectivTexts.registerSuccessfullSubtitle,
+                              backgroundColor:
+                                  SlectivColors.positifSnackbarColor,
+                              colorText: SlectivColors.whiteColor,
+                              duration: const Duration(seconds: 4),
+                            );
 
-                  // Clear form
-                  registerController.clearForm();
+                            // Clear form
+                            registerController.clearForm();
 
-                  // Navigate to LoginScreenView
-                  Get.off(
-                    () => LoginScreenView(),
-                    transition: Transition.fadeIn,
-                    duration: const Duration(seconds: 2),
-                  );
-                } catch (e) {
-                  // Hide loading dialog
-                  Get.back();
+                            // Navigate to LoginScreenView
+                            Get.off(
+                              () => LoginScreenView(),
+                              transition: Transition.fadeIn,
+                              duration: const Duration(seconds: 2),
+                            );
+                          } catch (e) {
+                            // Hide loading dialog
+                            Get.back();
 
-                  // Show error snackbar
-                  Get.snackbar(
-                    SlectivTexts.snackbarErrorTitle,
-                    SlectivTexts.snackbarErrorRegistrationSubtitle,
-                    backgroundColor:
-                        SlectivColors.cancelAndNegatifSnackbarButtonColor,
-                    colorText: Colors.white,
-                  );
-                }
-              }
-            },
-            backgroundColor: SlectivColors.submitButtonColor,
+                            // Show error snackbar
+                            Get.snackbar(
+                              SlectivTexts.snackbarErrorTitle,
+                              SlectivTexts.snackbarErrorRegistrationSubtitle,
+                              backgroundColor:
+                                  SlectivColors
+                                      .cancelAndNegatifSnackbarButtonColor,
+                              colorText: Colors.white,
+                            );
+                          }
+                        }
+                      }
+                      : null,
+              backgroundColor: SlectivColors.submitButtonColor,
+              isEnabled: registerController.isFormValid.value,
+            ),
           ),
 
           // -- Already Have a Account ??
@@ -356,6 +431,7 @@ class SlectivRegisterForm extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );
