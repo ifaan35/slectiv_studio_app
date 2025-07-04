@@ -9,6 +9,14 @@ class SlectivColors {
     0xFF198251,
   ); // Sama dengan positifSnackbarColor
 
+  // -- Modern Professional Colors (New Design)
+  static const Color primaryBlue = Color(0xFF1E40AF); // Primary Blue from logo
+  static const Color secondaryBlue = Color(0xFF3B82F6); // Lighter blue
+  static const Color textGray = Color(0xFF64748B); // Modern gray for text
+  static const Color lightBlueBackground = Color(
+    0xFFF1F5F9,
+  ); // Light blue tint background
+
   // -- Background Colors
   static const Color backgroundColor = Color(0xFFECE7DD);
   static const Color bottomNVBackgroundColor = Color(0xFFCCCCCC);

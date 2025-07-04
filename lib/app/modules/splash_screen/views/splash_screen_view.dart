@@ -12,18 +12,26 @@ class SplashScreenView extends GetView<SplashScreenController> {
   Widget build(BuildContext context) {
     return GetBuilder<SplashScreenController>(
       initState: (_) {
-        Timer(const Duration(seconds: 3), () {
+        Timer(const Duration(seconds: 300), () {
           Get.offAllNamed(Routes.ONBOARDING_SCREEN);
         });
       },
       builder: (context) {
-        return const Scaffold(
-          backgroundColor: SlectivColors.backgroundColor,
-
-          // -- Display of Splash Screen
-          body: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: SlectivSplashDisplay(),
+        return Scaffold(
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  SlectivColors.lightBlueBackground,
+                  Color(0xFFE2E8F0),
+                  SlectivColors.lightBlueBackground,
+                ],
+                stops: [0.0, 0.5, 1.0],
+              ),
+            ),
+            child: const SafeArea(child: SlectivSplashDisplay()),
           ),
         );
       },

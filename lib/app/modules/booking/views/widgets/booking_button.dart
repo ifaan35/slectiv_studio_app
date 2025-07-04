@@ -20,56 +20,66 @@ class SlectivBookingButton extends StatelessWidget {
           width: double.infinity,
           height: 56,
           decoration: BoxDecoration(
-            gradient: isButtonEnabled
-                ? LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      SlectivColors.primaryColor,
-                      SlectivColors.submitButtonColor,
-                    ],
-                  )
-                : null,
-            color: isButtonEnabled ? null : SlectivColors.hintColor.withValues(alpha: 0.3),
+            gradient:
+                isButtonEnabled
+                    ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        SlectivColors.primaryColor,
+                        SlectivColors.submitButtonColor,
+                      ],
+                    )
+                    : null,
+            color:
+                isButtonEnabled
+                    ? null
+                    : SlectivColors.hintColor.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(16),
-            boxShadow: isButtonEnabled
-                ? [
-                    BoxShadow(
-                      color: SlectivColors.primaryColor.withValues(alpha: 0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 8),
-                    ),
-                  ]
-                : null,
+            boxShadow:
+                isButtonEnabled
+                    ? [
+                      BoxShadow(
+                        color: SlectivColors.primaryColor.withValues(
+                          alpha: 0.3,
+                        ),
+                        blurRadius: 15,
+                        offset: const Offset(0, 8),
+                      ),
+                    ]
+                    : null,
           ),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: isButtonEnabled
-                  ? () async {
-                      bool confirmed = await _showBookingConfirmation(context);
-                      if (confirmed) {
-                        Get.dialog(
-                          const Center(
-                            child: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  SlectivColors.circularProgressColor,
+              onTap:
+                  isButtonEnabled
+                      ? () async {
+                        bool confirmed = await _showBookingConfirmation(
+                          context,
+                        );
+                        if (confirmed) {
+                          Get.dialog(
+                            const Center(
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    SlectivColors.circularProgressColor,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          barrierDismissible: false,
-                        );
-                        await Future.delayed(const Duration(seconds: 3));
-                        await controller.slectivBookingValidation(controller);
-                        Get.back();
+                            barrierDismissible: false,
+                          );
+                          await Future.delayed(const Duration(seconds: 3));
+                          await controller.slectivBookingValidation(controller);
+                          Get.back();
+                        }
                       }
-                    }
-                  : null,
+                      : null,
               child: Container(
                 alignment: Alignment.center,
                 child: Row(
@@ -77,7 +87,10 @@ class SlectivBookingButton extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.event_available,
-                      color: isButtonEnabled ? Colors.white : SlectivColors.hintColor,
+                      color:
+                          isButtonEnabled
+                              ? Colors.white
+                              : SlectivColors.hintColor,
                       size: 24,
                     ),
                     const SizedBox(width: 12),
@@ -86,7 +99,10 @@ class SlectivBookingButton extends StatelessWidget {
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: isButtonEnabled ? Colors.white : SlectivColors.hintColor,
+                        color:
+                            isButtonEnabled
+                                ? Colors.white
+                                : SlectivColors.hintColor,
                       ),
                     ),
                   ],
@@ -101,68 +117,69 @@ class SlectivBookingButton extends StatelessWidget {
 
   Future<bool> _showBookingConfirmation(BuildContext context) async {
     return await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Text(
-            SlectivTexts.snackbarBookingConfirmTitle,
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: SlectivColors.blackColor,
-            ),
-          ),
-          content: Text(
-            SlectivTexts.snackbarBookingConfirmSubtitle,
-            textAlign: TextAlign.justify,
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: SlectivColors.hintColor,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(
-                SlectivTexts.bookingNo,
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Text(
+                SlectivTexts.snackbarBookingConfirmTitle,
+                style: GoogleFonts.spaceGrotesk(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: SlectivColors.blackColor,
+                ),
+              ),
+              content: Text(
+                SlectivTexts.snackbarBookingConfirmSubtitle,
+                textAlign: TextAlign.justify,
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: SlectivColors.hintColor,
                 ),
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    SlectivColors.primaryColor,
-                    SlectivColors.submitButtonColor,
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(
-                  SlectivTexts.bookingYes,
-                  style: GoogleFonts.spaceGrotesk(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text(
+                    SlectivTexts.bookingNo,
+                    style: GoogleFonts.spaceGrotesk(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: SlectivColors.hintColor,
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        );
-      },
-    ) ?? false;
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        SlectivColors.primaryColor,
+                        SlectivColors.submitButtonColor,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(
+                      SlectivTexts.bookingYes,
+                      style: GoogleFonts.spaceGrotesk(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
 }

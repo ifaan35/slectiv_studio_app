@@ -154,16 +154,20 @@ class BookingController extends GetxController {
     String dateToCheck,
   ) {
     // If one doesn't have data on the checked date
-    if (oldBookings[dateToCheck] == null && newBookings[dateToCheck] != null)
+    if (oldBookings[dateToCheck] == null && newBookings[dateToCheck] != null) {
       return true;
-    if (oldBookings[dateToCheck] != null && newBookings[dateToCheck] == null)
+    }
+    if (oldBookings[dateToCheck] != null && newBookings[dateToCheck] == null) {
       return true;
-    if (oldBookings[dateToCheck] == null && newBookings[dateToCheck] == null)
+    }
+    if (oldBookings[dateToCheck] == null && newBookings[dateToCheck] == null) {
       return false;
+    }
 
     // Compare list length
-    if (oldBookings[dateToCheck]!.length != newBookings[dateToCheck]!.length)
+    if (oldBookings[dateToCheck]!.length != newBookings[dateToCheck]!.length) {
       return true;
+    }
 
     // Compare content
     for (var booking in newBookings[dateToCheck]!) {

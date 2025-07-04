@@ -199,7 +199,7 @@ class TransactionController extends GetxController {
           await _firestore.collection(SlectivTexts.bookings).get();
 
       for (var doc in querySnapshot.docs) {
-        var data = doc.data() as Map<String, dynamic>;
+        var data = doc.data();
 
         if (data[SlectivTexts.bookingDate] is Timestamp) {
           var docDate = data[SlectivTexts.bookingDate] as Timestamp;
