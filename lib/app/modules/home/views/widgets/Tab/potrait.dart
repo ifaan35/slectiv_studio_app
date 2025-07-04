@@ -12,141 +12,144 @@ class SlectivPortrait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: SlectivColors.backgroundColor,
+      backgroundColor: SlectivColors.lightBlueBackground,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
+              // Title
               Text(
                 SlectivTexts.potraitTitle,
                 style: GoogleFonts.spaceGrotesk(
                   textStyle: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.w700,
                     color: SlectivColors.blackColor,
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Center(
-                child: Image(image: AssetImage(SlectivImages.potraitImages)),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                SlectivTexts.potraitDescription,
-                style: GoogleFonts.spaceGrotesk(
-                  textStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: SlectivColors.blackColor,
+              const SizedBox(height: 24),
+
+              // Image Card
+              Card(
+                elevation: 8,
+                shadowColor: SlectivColors.blackColor.withOpacity(0.15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: const Image(
+                      image: AssetImage(SlectivImages.potraitImages),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                textAlign: TextAlign.justify,
               ),
-              const SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // First Feature
-                  Container(
-                    width: 200,
-                    height: 25,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: SlectivColors.blackColor.withOpacity(0.1),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      SlectivTexts.hours1SessionFeature,
-                      style: GoogleFonts.spaceGrotesk(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: SlectivColors.blackColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
 
-                  // Second Feature
-                  Container(
-                    width: 200,
-                    height: 25,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: SlectivColors.blackColor.withOpacity(0.1),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      SlectivTexts.allSoftliteFeature,
-                      style: GoogleFonts.spaceGrotesk(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: SlectivColors.blackColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
+              const SizedBox(height: 24),
 
-                  // Third Feature
-                  Container(
-                    width: 200,
-                    height: 25,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: SlectivColors.blackColor.withOpacity(0.1),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      SlectivTexts.printed4RPhotoFeature,
-                      style: GoogleFonts.spaceGrotesk(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: SlectivColors.blackColor,
+              // Description Card
+              Card(
+                elevation: 8,
+                shadowColor: SlectivColors.blackColor.withOpacity(0.15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Service Description",
+                        style: GoogleFonts.spaceGrotesk(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: SlectivColors.blackColor,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-
-                  // Four Feature
-                  Container(
-                    width: 200,
-                    height: 25,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: SlectivColors.blackColor.withOpacity(0.1),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      SlectivTexts.includePhotographerFeature,
-                      style: GoogleFonts.spaceGrotesk(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: SlectivColors.blackColor,
+                      const SizedBox(height: 12),
+                      Text(
+                        SlectivTexts.potraitDescription,
+                        style: GoogleFonts.spaceGrotesk(
+                          textStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: SlectivColors.blackColor,
+                            height: 1.5,
+                          ),
                         ),
+                        textAlign: TextAlign.justify,
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              const SizedBox(height: 30),
+
+              const SizedBox(height: 24),
+
+              // Features Card
+              Card(
+                elevation: 8,
+                shadowColor: SlectivColors.blackColor.withOpacity(0.15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "What's Included",
+                        style: GoogleFonts.spaceGrotesk(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: SlectivColors.blackColor,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFeatureItem(SlectivTexts.hours1SessionFeature),
+                      const SizedBox(height: 12),
+                      _buildFeatureItem(SlectivTexts.allSoftliteFeature),
+                      const SizedBox(height: 12),
+                      _buildFeatureItem(SlectivTexts.printed4RPhotoFeature),
+                      const SizedBox(height: 12),
+                      _buildFeatureItem(
+                        SlectivTexts.includePhotographerFeature,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // Contact Button
               SlectiveWidgetButton(
                 buttonName: SlectivTexts.photoboothButtonName,
                 onPressed: () async {
@@ -156,11 +159,39 @@ class SlectivPortrait extends StatelessWidget {
                   launchUrl(adminContactUrl);
                 },
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 80),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFeatureItem(String feature) {
+    return Row(
+      children: [
+        Container(
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(
+            color: SlectivColors.primaryColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            feature,
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: SlectivColors.blackColor,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

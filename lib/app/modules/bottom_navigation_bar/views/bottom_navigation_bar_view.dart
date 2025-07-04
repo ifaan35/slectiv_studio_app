@@ -20,7 +20,7 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
     final profileController = Get.find<ProfileController>();
 
     return Scaffold(
-      backgroundColor: SlectivColors.backgroundColor,
+      backgroundColor: SlectivColors.lightBlueBackground,
 
       // Modern Bottom Navigation Bar
       bottomNavigationBar: Container(

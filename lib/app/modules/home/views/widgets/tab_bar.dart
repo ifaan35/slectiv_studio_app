@@ -14,7 +14,8 @@ class SlectivTabSection extends StatefulWidget {
   _TabSectionState createState() => _TabSectionState();
 }
 
-class _TabSectionState extends State<SlectivTabSection> with TickerProviderStateMixin {
+class _TabSectionState extends State<SlectivTabSection>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -33,33 +34,119 @@ class _TabSectionState extends State<SlectivTabSection> with TickerProviderState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: 50,
-          child: TabBar(
-            controller: _tabController,
-            tabs: [
-              Tab(child: Text(SlectivTexts.selfPhotoTitle, textAlign: TextAlign.center, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SlectivColors.blackColor)),),),
-              Tab(child: Text(SlectivTexts.widePhotoboxTitle, textAlign: TextAlign.center, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SlectivColors.blackColor)),), ),
-              Tab(child: Text(SlectivTexts.photoboothTitle, textAlign: TextAlign.center, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SlectivColors.blackColor)),),),
-              Tab(child: Text(SlectivTexts.potraitTitle, textAlign: TextAlign.center, style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SlectivColors.blackColor)),),),
-            ],
+        // Modern Tab Bar with custom design
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: SlectivColors.lightBlueBackground,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: SlectivColors.primaryBlue.withOpacity(0.1),
+              width: 1,
+            ),
+          ),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: TabBar(
+              controller: _tabController,
+              indicator: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    SlectivColors.primaryBlue,
+                    SlectivColors.secondaryBlue,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: SlectivColors.primaryBlue.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              indicatorPadding: const EdgeInsets.all(4),
+              indicatorSize: TabBarIndicatorSize.tab,
+              dividerColor: Colors.transparent,
+              labelPadding: const EdgeInsets.symmetric(
+                horizontal: 4,
+              ), // Increased padding
+              labelColor: SlectivColors.whiteColor,
+              unselectedLabelColor: SlectivColors.textGray,
+              isScrollable: false,
+              tabAlignment:
+                  TabAlignment.fill, // Ensure tabs fill the available width
+              tabs: [
+                _buildModernTab(SlectivTexts.selfPhotoTitle),
+                _buildModernTab(SlectivTexts.widePhotoboxTitle),
+                _buildModernTab(SlectivTexts.photoboothTitle),
+                _buildModernTab(SlectivTexts.potraitTitle),
+              ],
+            ),
           ),
         ),
-        SizedBox(
-          height: 400,
-          child: TabBarView(
-            controller: _tabController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              SlectivSelfPhoto(),
-              SlectivWidePhotobox(),
-              SlectivPhotobooth(),
-              SlectivPortrait(),
+
+        const SizedBox(height: 24),
+
+        // Tab Content with modern container
+        Container(
+          height: 1250,
+          decoration: BoxDecoration(
+            color: SlectivColors.whiteColor,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
             ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: TabBarView(
+              controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
+                SlectivSelfPhoto(),
+                SlectivWidePhotobox(),
+                SlectivPhotobooth(),
+                SlectivPortrait(),
+              ],
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildModernTab(String title) {
+    return Container(
+      height: 64, // Increased height for better text visibility
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      child: Center(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: const TextStyle(
+                fontSize: 12, // Slightly increased font size
+                fontWeight: FontWeight.w600,
+                height: 1.2, // Better line height for readability
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

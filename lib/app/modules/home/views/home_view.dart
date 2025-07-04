@@ -1,57 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/app/modules/home/controllers/home_controller.dart';
-import 'package:slectiv_studio_app/app/modules/home/views/widgets/account_type.dart.dart';
-import 'package:slectiv_studio_app/app/modules/home/views/widgets/membership_banner.dart';
+import 'package:slectiv_studio_app/app/modules/home/views/widgets/modern_header.dart';
+import 'package:slectiv_studio_app/app/modules/home/views/widgets/modern_membership_section.dart';
+import 'package:slectiv_studio_app/app/modules/home/views/widgets/modern_welcome_section.dart';
+import 'package:slectiv_studio_app/app/modules/home/views/widgets/service_header.dart';
 import 'package:slectiv_studio_app/app/modules/home/views/widgets/tab_bar.dart';
-import 'package:slectiv_studio_app/app/modules/home/views/widgets/welcome_user.dart';
-import 'package:slectiv_studio_app/app/modules/login_screen/views/widgets/authentication_header.dart';
 import 'package:slectiv_studio_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final profileController = Get.put(ProfileController());
     return Scaffold(
-      backgroundColor: SlectivColors.backgroundColor,
+      backgroundColor: SlectivColors.lightBlueBackground,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // -- Authentication Header
-                const SizedBox(height: 24),
-                const SlectivAuthenticationHeader(),
+        child: CustomScrollView(
+          slivers: [
+            // Modern App Bar with Header
+            const SliverToBoxAdapter(child: ModernHeader()),
 
-                // -- String Hello to User
-                const SizedBox(height: 24),
-                SlectivHelloToUser(profileController: profileController),
-
-                // -- Account Type
-                const SlectivTypeAccount(),
-                const SizedBox(height: 24),
-
-                // -- Membership Banner
-                const SlectivMembershipBanner(),
-                const SizedBox(height: 16),
-
-                // -- Tab Bar
-                const SlectivTabSection(),
-
-                // -- Divider
-                const Divider(
-                  color: SlectivColors.blackColor,
-                  indent: 0,
-                  endIndent: 500,
-                ),
-              ],
+            // Welcome Section
+            SliverToBoxAdapter(
+              child: ModernWelcomeSection(profileController: profileController),
             ),
-          ),
+
+            // Content Container
+            SliverToBoxAdapter(
+              child: Container(
+                margin: const EdgeInsets.only(top: 12),
+                decoration: const BoxDecoration(
+                  color: SlectivColors.whiteColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32),
+                    topRight: Radius.circular(32),
+                    bottomLeft: Radius.circular(32),
+                    bottomRight: Radius.circular(32),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Membership Banner with enhanced styling
+                      const ModernMembershipSection(),
+
+                      const SizedBox(height: 32),
+
+                      // Service Categories Header
+                      const ServiceHeader(),
+
+                      const SizedBox(height: 16),
+
+                      // Tab Bar with modern design
+                      const SlectivTabSection(),
+
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -9,12 +9,41 @@ class SlectivHelloToUser extends StatelessWidget {
   const SlectivHelloToUser({
     super.key,
     required this.profileController,
+    this.textColor = SlectivColors.titleColor,
   });
 
   final ProfileController profileController;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Text("${SlectivTexts.hallo} ${profileController.name.value}", style: GoogleFonts.spaceGrotesk(textStyle: const TextStyle(fontSize: 19, fontWeight: FontWeight.w700, color: SlectivColors.titleColor)),));
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            SlectivTexts.hallo,
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: textColor.withOpacity(0.8),
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            profileController.name.value,
+            style: GoogleFonts.spaceGrotesk(
+              textStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: textColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
