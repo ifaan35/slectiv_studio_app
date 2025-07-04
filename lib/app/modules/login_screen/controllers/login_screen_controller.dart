@@ -13,8 +13,6 @@ class LoginScreenController extends GetxController {
   final hidePassword = true.obs;
   final isFormValid = false.obs;
 
-  // final CollectionReference _userCollection =
-  //     FirebaseFirestore.instance.collection('user');
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

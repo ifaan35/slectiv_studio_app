@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slectiv_studio_app/app/modules/forget_password_screen/views/widgets/forget_password_form.dart';
-import 'package:slectiv_studio_app/app/modules/forget_password_screen/views/widgets/forget_password_header.dart';
-import 'package:slectiv_studio_app/app/modules/login_screen/views/widgets/authentication_header.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/image_strings.dart';
 import '../controllers/forget_password_screen_controller.dart';

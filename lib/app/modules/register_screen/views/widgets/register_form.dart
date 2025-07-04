@@ -397,7 +397,6 @@ class SlectivRegisterForm extends StatelessWidget {
                         }
                       }
                       : null,
-              backgroundColor: SlectivColors.submitButtonColor,
               isEnabled: registerController.isFormValid.value,
             ),
           ),

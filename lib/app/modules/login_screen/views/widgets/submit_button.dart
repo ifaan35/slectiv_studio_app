@@ -7,12 +7,10 @@ class SlectiveWidgetButton extends StatelessWidget {
     super.key,
     required this.buttonName,
     required this.onPressed,
-    required this.backgroundColor,
     this.isEnabled = true,
   });
   final String buttonName;
   final VoidCallback? onPressed;
-  final Color backgroundColor;
   final bool isEnabled;
 
   @override

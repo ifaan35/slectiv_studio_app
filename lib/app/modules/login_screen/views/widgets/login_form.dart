@@ -194,7 +194,6 @@ class SlectivLoginForm extends StatelessWidget {
                         Get.back();
                       }
                       : null,
-              backgroundColor: SlectivColors.submitButtonColor,
               isEnabled: loginController.isFormValid.value,
             ),
           ),

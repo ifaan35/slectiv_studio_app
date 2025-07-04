@@ -24,41 +24,44 @@ class WaitingToResetPassword extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 24,),
+              const SizedBox(height: 24),
               const SlectivAuthenticationHeader(),
-              const SizedBox(height: 36,),
+              const SizedBox(height: 36),
 
               Lottie.asset(SlectivImages.waitingToResetPassword),
               Text(forgetPasswordController.emailController.text),
-              const SizedBox(height: 5,),
+              const SizedBox(height: 5),
               Text(
-                SlectivTexts.forgetPasswordWaitingToResetTitle, 
+                SlectivTexts.forgetPasswordWaitingToResetTitle,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.spaceGrotesk(
                   textStyle: const TextStyle(
-                    fontSize: 28, 
-                    fontWeight: FontWeight.bold, 
-                    color: SlectivColors.blackColor
-                  )
-                )
-              ),
-              const SizedBox(height: 5,),
-              Text(
-                SlectivTexts.forgetPasswordWaitingToResetSubtitle,
-                textAlign: TextAlign.center, 
-                style: GoogleFonts.spaceGrotesk(
-                  textStyle: const TextStyle(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w500, 
-                    color: SlectivColors.blackColor
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: SlectivColors.blackColor,
                   ),
                 ),
               ),
-              const SizedBox(height: 32,),
-              SlectiveWidgetButton(buttonName: SlectivTexts.successfullyResetPassword, onPressed: () => Get.offAll(LoginScreenView()), backgroundColor: SlectivColors.submitButtonColor)
+              const SizedBox(height: 5),
+              Text(
+                SlectivTexts.forgetPasswordWaitingToResetSubtitle,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.spaceGrotesk(
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: SlectivColors.blackColor,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              SlectiveWidgetButton(
+                buttonName: SlectivTexts.successfullyResetPassword,
+                onPressed: () => Get.offAll(LoginScreenView()),
+              ),
             ],
           ),
-        )
+        ),
       ),
     );
   }

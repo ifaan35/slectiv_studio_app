@@ -48,7 +48,6 @@ class BookingSuccessScreen extends StatelessWidget {
               buttonName: SlectivTexts.bookingConfirm,
               onPressed:
                   () => Get.offAll(() => const BottomNavigationBarView()),
-              backgroundColor: SlectivColors.submitButtonColor,
             ),
           ],
         ),

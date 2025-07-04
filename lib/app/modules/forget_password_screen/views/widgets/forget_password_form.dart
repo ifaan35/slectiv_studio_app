@@ -119,7 +119,6 @@ class SlectivFormForgetPassword extends StatelessWidget {
                         }
                       }
                       : null,
-              backgroundColor: SlectivColors.submitButtonColor,
               isEnabled: forgetPasswordController.isFormValid.value,
             ),
           ),

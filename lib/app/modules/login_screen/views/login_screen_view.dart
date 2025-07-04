@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:slectiv_studio_app/app/modules/login_screen/views/widgets/authentication_header.dart';
-import 'package:slectiv_studio_app/app/modules/login_screen/views/widgets/header_text.dart';
 import 'package:slectiv_studio_app/app/modules/login_screen/views/widgets/login_form.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/image_strings.dart';
-import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 import '../controllers/login_screen_controller.dart';
 
 class LoginScreenView extends GetView<LoginScreenController> {
