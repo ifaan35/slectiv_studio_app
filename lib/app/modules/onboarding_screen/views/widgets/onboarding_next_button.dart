@@ -14,15 +14,27 @@ class SlectivonBoardingNextButton extends StatelessWidget {
       child: GestureDetector(
         onTap: () => OnboardingScreenController.instance.nextPage(),
         child: Container(
-          width: 50,
-          height: 50,
+          width: 56,
+          height: 56,
           decoration: BoxDecoration(
-            color: SlectivColors.blackColor,
-            borderRadius: BorderRadius.circular(50),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [SlectivColors.primaryBlue, SlectivColors.secondaryBlue],
+            ),
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: SlectivColors.primaryBlue.withOpacity(0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: const Icon(
-            FluentIcons.arrow_right_20_regular,
-            color: SlectivColors.whiteColor,
+            FluentIcons.arrow_right_20_filled,
+            color: Colors.white,
+            size: 24,
           ),
         ),
       ),
