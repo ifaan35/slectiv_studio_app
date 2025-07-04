@@ -2,9 +2,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/app/modules/bottom_navigation_bar/controllers/bottom_navigation_bar_controller.dart';
-import 'package:slectiv_studio_app/app/modules/bottom_navigation_bar/views/widgets/booking_destination.dart';
-import 'package:slectiv_studio_app/app/modules/bottom_navigation_bar/views/widgets/gallery_destination.dart';
-import 'package:slectiv_studio_app/app/modules/bottom_navigation_bar/views/widgets/home_destination.dart';
 import 'package:slectiv_studio_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
@@ -23,35 +20,75 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
     final profileController = Get.find<ProfileController>();
 
     return Scaffold(
-      backgroundColor: SlectivColors.bottomNVBackgroundColor,
+      backgroundColor: SlectivColors.backgroundColor,
 
-      // Bottom Navigation Bar
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+      // Modern Bottom Navigation Bar
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: SlectivColors.whiteColor,
+          borderRadius: BorderRadius.circular(35),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+              spreadRadius: 0,
+            ),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+              spreadRadius: 2,
+            ),
+          ],
         ),
-        child: Obx(
-          () => NavigationBar(
-            height: 80,
-            elevation: 0,
-            backgroundColor: SlectivColors.whiteColor,
-            selectedIndex: controller.selectedIndex.value,
-            indicatorColor: Colors.transparent,
-            onDestinationSelected:
-                (index) => controller.selectedIndex.value = index,
-            destinations: [
-              const SlectivHomeDestination(),
-              const SlectivBookingDestination(),
-              const SlectivGalleryDestination(),
-              NavigationDestination(
-                icon: Obx(() => _buildProfileIcon(profileController, false)),
-                label: SlectivTexts.profileLabel,
-                selectedIcon: Obx(
-                  () => _buildProfileIcon(profileController, true),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          child: Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildPillNavItem(
+                  icon: FluentIcons.home_24_regular,
+                  selectedIcon: FluentIcons.home_24_filled,
+                  label: SlectivTexts.homeLabel,
+                  isSelected: controller.selectedIndex.value == 0,
+                  onTap: () => controller.selectedIndex.value = 0,
                 ),
-              ),
-            ],
+                Obx(
+                  () =>
+                      controller.isUser.value
+                          ? _buildPillNavItem(
+                            icon: FluentIcons.camera_add_24_regular,
+                            selectedIcon: FluentIcons.camera_add_24_filled,
+                            label: SlectivTexts.bookingLabel,
+                            isSelected: controller.selectedIndex.value == 1,
+                            onTap: () => controller.selectedIndex.value = 1,
+                          )
+                          : _buildPillNavItem(
+                            icon: FluentIcons.data_usage_24_regular,
+                            selectedIcon: FluentIcons.data_usage_24_filled,
+                            label: SlectivTexts.transactionLabel,
+                            isSelected: controller.selectedIndex.value == 1,
+                            onTap: () => controller.selectedIndex.value = 1,
+                          ),
+                ),
+                _buildPillNavItem(
+                  icon: FluentIcons.document_bullet_list_24_regular,
+                  selectedIcon: FluentIcons.document_bullet_list_24_filled,
+                  label: SlectivTexts.galleyLabel,
+                  isSelected: controller.selectedIndex.value == 2,
+                  onTap: () => controller.selectedIndex.value = 2,
+                ),
+                _buildProfilePillNavItem(
+                  profileController,
+                  label: SlectivTexts.profileLabel,
+                  isSelected: controller.selectedIndex.value == 3,
+                  onTap: () => controller.selectedIndex.value = 3,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -61,23 +98,108 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
     );
   }
 
-  Widget _buildProfileIcon(
-    ProfileController profileController,
-    bool isSelected,
-  ) {
+  // Pill-shaped navigation item builder
+  Widget _buildPillNavItem({
+    required IconData icon,
+    required IconData selectedIcon,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? SlectivColors.primaryBlue : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isSelected ? selectedIcon : icon,
+              color: isSelected ? Colors.white : Colors.grey.shade600,
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.grey.shade600,
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Pill-shaped profile navigation item builder
+  Widget _buildProfilePillNavItem(
+    ProfileController profileController, {
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
     final userImage = profileController.profileImageUrl.value;
 
-    return userImage.isNotEmpty
-        ? CircleAvatar(
-          backgroundImage: NetworkImage(userImage),
-          radius: 12,
-          backgroundColor: Colors.transparent,
-        )
-        : Icon(
-          isSelected
-              ? FluentIcons.person_24_filled
-              : FluentIcons.person_24_regular,
-          color: isSelected ? SlectivColors.submitButtonColor : null,
-        );
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? SlectivColors.primaryBlue : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            userImage.isNotEmpty
+                ? Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected ? Colors.white : Colors.grey.shade600,
+                      width: 2,
+                    ),
+                  ),
+                  child: ClipOval(
+                    child: Image.network(
+                      userImage,
+                      fit: BoxFit.cover,
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                )
+                : Icon(
+                  isSelected
+                      ? FluentIcons.person_24_filled
+                      : FluentIcons.person_24_regular,
+                  color: isSelected ? Colors.white : Colors.grey.shade600,
+                  size: 24,
+                ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.grey.shade600,
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
