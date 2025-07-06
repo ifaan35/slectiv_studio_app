@@ -54,7 +54,7 @@ class BookingView extends GetView<BookingController> {
               child: Column(
                 children: [
                   const ModernBookingHeader(),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   // Enhanced welcome section
                   Row(
                     children: [
@@ -78,7 +78,7 @@ class BookingView extends GetView<BookingController> {
                             Text(
                               'Book Your Session',
                               style: GoogleFonts.spaceGrotesk(
-                                fontSize: 28,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
                               ),
@@ -87,7 +87,7 @@ class BookingView extends GetView<BookingController> {
                             Text(
                               'Choose your preferred date, time, and service options',
                               style: GoogleFonts.spaceGrotesk(
-                                fontSize: 16,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white.withOpacity(0.9),
                               ),
@@ -108,10 +108,6 @@ class BookingView extends GetView<BookingController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Progress indicator
-                    _buildProgressIndicator(),
-                    const SizedBox(height: 32),
-
                     // Calendar Section
                     ModernCalendarSection(controller: controller, now: now),
                     const SizedBox(height: 24),
@@ -137,34 +133,6 @@ class BookingView extends GetView<BookingController> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildProgressIndicator() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          _buildProgressStep(1, 'Date', true),
-          _buildProgressLine(true),
-          _buildProgressStep(2, 'Time', false),
-          _buildProgressLine(false),
-          _buildProgressStep(3, 'Options', false),
-          _buildProgressLine(false),
-          _buildProgressStep(4, 'Confirm', false),
-        ],
       ),
     );
   }

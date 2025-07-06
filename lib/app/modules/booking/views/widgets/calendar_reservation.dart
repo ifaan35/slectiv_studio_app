@@ -44,39 +44,115 @@ class SlectivCalendarReservation extends StatelessWidget {
         enabledDayPredicate: (day) {
           return day.isAfter(DateTime.now().subtract(const Duration(days: 1)));
         },
-        calendarStyle: const CalendarStyle(
-          todayTextStyle: TextStyle(color: SlectivColors.whiteColor),
+        calendarStyle: CalendarStyle(
+          // Modern styling for today
+          todayTextStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
           todayDecoration: BoxDecoration(
+            color: SlectivColors.secondaryBlue,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: SlectivColors.secondaryBlue.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+
+          // Default day styling
+          defaultTextStyle: const TextStyle(
             color: SlectivColors.blackColor,
-            shape: BoxShape.rectangle,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
           ),
-          defaultTextStyle: TextStyle(color: SlectivColors.blackColor),
           defaultDecoration: BoxDecoration(
-            color: SlectivColors.whiteColor,
-            shape: BoxShape.rectangle,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
           ),
-          weekendTextStyle: TextStyle(color: SlectivColors.blackColor),
+
+          // Weekend styling
+          weekendTextStyle: TextStyle(
+            color: SlectivColors.textGray,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
           weekendDecoration: BoxDecoration(
-            color: SlectivColors.whiteColor,
-            shape: BoxShape.rectangle,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
           ),
-          outsideTextStyle: TextStyle(color: SlectivColors.greyBooking),
-          holidayTextStyle: TextStyle(color: SlectivColors.blackColor),
+
+          // Outside month styling
+          outsideTextStyle: TextStyle(
+            color: SlectivColors.textGray.withOpacity(0.4),
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
+
+          // Selected day styling - modern blue theme
+          selectedTextStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+          ),
           selectedDecoration: BoxDecoration(
-            color: SlectivColors.warningColor,
-            shape: BoxShape.rectangle,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [SlectivColors.primaryBlue, SlectivColors.secondaryBlue],
+            ),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: SlectivColors.primaryBlue.withOpacity(0.4),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
+
+          // Modern cell padding
+          cellPadding: const EdgeInsets.all(6),
+          cellMargin: const EdgeInsets.all(2),
         ),
-        daysOfWeekStyle: const DaysOfWeekStyle(
+        daysOfWeekStyle: DaysOfWeekStyle(
+          // Modern header styling
           weekendStyle: TextStyle(
-            color: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+            color: SlectivColors.primaryBlue,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+          weekdayStyle: TextStyle(
+            color: SlectivColors.blackColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
           ),
         ),
-        headerStyle: const HeaderStyle(
+        headerStyle: HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
           leftChevronVisible: true,
           rightChevronVisible: true,
+          // Modern header styling
+          titleTextStyle: TextStyle(
+            color: SlectivColors.blackColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
+          leftChevronIcon: Icon(
+            Icons.chevron_left,
+            color: SlectivColors.primaryBlue,
+            size: 28,
+          ),
+          rightChevronIcon: Icon(
+            Icons.chevron_right,
+            color: SlectivColors.primaryBlue,
+            size: 28,
+          ),
+          headerPadding: const EdgeInsets.symmetric(vertical: 16),
         ),
         onFormatChanged: (format) {},
         onPageChanged: (focusedDay) {
@@ -84,37 +160,113 @@ class SlectivCalendarReservation extends StatelessWidget {
               focusedDay.isBefore(lastDay) ? focusedDay : lastDay;
         },
         calendarBuilders: CalendarBuilders(
+          // Modern available days
           defaultBuilder: (context, day, focusedDay) {
             if (day.isBefore(DateTime.now())) {
-              return Container(); // Hide days before today
+              return null; // Let default styling handle past days
             } else {
-              return Center(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: SlectivColors.blackColor,
-                    shape: BoxShape.rectangle,
+              return Container(
+                margin: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: SlectivColors.lightBlueBackground,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: SlectivColors.primaryBlue.withOpacity(0.1),
+                    width: 1,
                   ),
-                  child: Center(
-                    child: Text(
-                      '${day.day}',
-                      style: const TextStyle(color: SlectivColors.whiteColor),
+                ),
+                child: Center(
+                  child: Text(
+                    '${day.day}',
+                    style: TextStyle(
+                      color: SlectivColors.blackColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                     ),
                   ),
                 ),
               );
             }
           },
+
+          // Modern today styling
           todayBuilder: (context, day, focusedDay) {
-            return Center(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: SlectivColors.blackColor,
-                  shape: BoxShape.rectangle,
+            return Container(
+              margin: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: SlectivColors.secondaryBlue,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: SlectivColors.secondaryBlue.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
                 ),
-                child: Center(
-                  child: Text(
-                    '${day.day}',
-                    style: const TextStyle(color: SlectivColors.whiteColor),
+              ),
+            );
+          },
+
+          // Modern selected day styling
+          selectedBuilder: (context, day, focusedDay) {
+            return Container(
+              margin: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    SlectivColors.primaryBlue,
+                    SlectivColors.secondaryBlue,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: SlectivColors.primaryBlue.withOpacity(0.4),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            );
+          },
+
+          // Disabled days (past dates)
+          disabledBuilder: (context, day, focusedDay) {
+            return Container(
+              margin: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: TextStyle(
+                    color: Colors.grey.withOpacity(0.4),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
                   ),
                 ),
               ),

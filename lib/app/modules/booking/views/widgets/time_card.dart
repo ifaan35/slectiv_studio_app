@@ -14,8 +14,14 @@ class TimeCard extends StatelessWidget {
 
     return Obx(() {
       final isSelected = controller.selectedTime.value == time;
-      final isBooked = controller.isTimeBooked(controller.selectedDay.value, time);
-      final isPassed = controller.isTimePassed(controller.selectedDay.value, time);
+      final isBooked = controller.isTimeBooked(
+        controller.selectedDay.value,
+        time,
+      );
+      final isPassed = controller.isTimePassed(
+        controller.selectedDay.value,
+        time,
+      );
 
       return GestureDetector(
         onTap: () {
@@ -24,18 +30,53 @@ class TimeCard extends StatelessWidget {
           }
         },
         child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: isBooked || isPassed ? Colors.grey : isSelected ? SlectivColors.warningColor : Colors.white,
-            border: Border.all(color: Colors.black),
+            color: isBooked || isPassed ? Colors.grey : Colors.white,
+            gradient:
+                isSelected && !isBooked && !isPassed
+                    ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        SlectivColors.primaryBlue,
+                        SlectivColors.primaryBlue.withOpacity(0.8),
+                      ],
+                    )
+                    : null,
+            border: Border.all(
+              color:
+                  isSelected && !isBooked && !isPassed
+                      ? SlectivColors.primaryBlue
+                      : Colors.black,
+              width: isSelected && !isBooked && !isPassed ? 2 : 1,
+            ),
             borderRadius: BorderRadius.circular(8),
+            boxShadow:
+                isSelected && !isBooked && !isPassed
+                    ? [
+                      BoxShadow(
+                        color: SlectivColors.primaryBlue.withOpacity(0.3),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                    : null,
           ),
-          child: Text(
-            time,
-            style: TextStyle(
-              fontSize: 16,
-              color: isBooked || isPassed ? Colors.white : isSelected ? Colors.white : Colors.black,
+          child: Center(
+            child: Text(
+              time,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color:
+                    isBooked || isPassed
+                        ? Colors.white
+                        : isSelected
+                        ? Colors.white
+                        : Colors.black,
+              ),
             ),
           ),
         ),

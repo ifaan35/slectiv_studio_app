@@ -17,14 +17,37 @@ class SlectivColorDropdown extends StatelessWidget {
           width: double.infinity,
           height: 48.65,
           decoration: BoxDecoration(
-            border: Border.all(color: SlectivColors.blackColor),
-            borderRadius: BorderRadius.circular(8),
+            color: SlectivColors.primaryBlue.withOpacity(0.05),
+            border: Border.all(
+              color: SlectivColors.primaryBlue.withOpacity(0.3),
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: SlectivColors.primaryBlue.withOpacity(0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: DropdownButton<String>(
             isExpanded: true,
-            hint: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(SlectivTexts.selectAnOption),
+            underline: const SizedBox(), // Remove default underline
+            dropdownColor: SlectivColors.whiteColor,
+            icon: Icon(
+              Icons.keyboard_arrow_down,
+              color: SlectivColors.primaryBlue,
+            ),
+            hint: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                SlectivTexts.selectAnOption,
+                style: TextStyle(
+                  color: SlectivColors.primaryBlue.withOpacity(0.7),
+                  fontSize: 14,
+                ),
+              ),
             ),
             value:
                 controller.selectedOption.value.isEmpty
@@ -45,8 +68,15 @@ class SlectivColorDropdown extends StatelessWidget {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(value),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          color: SlectivColors.primaryBlue,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   );
                 }).toList(),
