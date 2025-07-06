@@ -196,7 +196,7 @@ class _SlectivPhotoboothState extends State<SlectivPhotobooth> {
                   launchUrl(adminContactUrl);
                 },
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 24),
             ],
           ),
         ),

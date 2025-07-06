@@ -95,7 +95,7 @@ class _TabSectionState extends State<SlectivTabSection>
 
         // Tab Content with modern container
         Container(
-          height: 1250,
+          height: 1150,
           decoration: BoxDecoration(
             color: SlectivColors.whiteColor,
             borderRadius: BorderRadius.circular(20),

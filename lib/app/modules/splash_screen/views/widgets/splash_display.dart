@@ -125,7 +125,7 @@ class _SlectivSplashDisplayState extends State<SlectivSplashDisplay>
                           ),
                           child: const CenterLogo(
                             logo: SlectivImages.applogo,
-                            width: 280,
+                            width: 180,
                             height: 90,
                           ),
                         ),

@@ -58,8 +58,6 @@ class HomeView extends GetView<HomeController> {
 
                       // Tab Bar with modern design
                       const SlectivTabSection(),
-
-                      const SizedBox(height: 24),
                     ],
                   ),
                 ),

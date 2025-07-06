@@ -20,88 +20,74 @@ class SlectivCalendarReservation extends StatelessWidget {
     DateTime firstDay =
         now.isBefore(lastDay) ? now : lastDay.subtract(const Duration(days: 1));
 
-    return Obx(() => TableCalendar(
-          focusedDay: controller.focusedDay.value.isBefore(lastDay)
-              ? controller.focusedDay.value
-              : lastDay,
-          firstDay: firstDay,
-          lastDay: lastDay,
-          selectedDayPredicate: (day) {
-            return isSameDay(controller.selectedDay.value, day);
-          },
-          onDaySelected: (selectedDay, focusedDay) {
-            if (selectedDay
-                .isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
-              controller.selectedDay.value = selectedDay;
-              controller.focusedDay.value =
-                  focusedDay.isBefore(lastDay) ? focusedDay : lastDay;
-              controller.selectedTime.value = '';
-            }
-          },
-          enabledDayPredicate: (day) {
-            return day
-                .isAfter(DateTime.now().subtract(const Duration(days: 1)));
-          },
-          calendarStyle: const CalendarStyle(
-            todayTextStyle: TextStyle(color: SlectivColors.whiteColor),
-            todayDecoration: BoxDecoration(
-              color: SlectivColors.blackColor,
-              shape: BoxShape.rectangle,
-            ),
-            defaultTextStyle: TextStyle(color: SlectivColors.blackColor),
-            defaultDecoration: BoxDecoration(
-              color: SlectivColors.whiteColor,
-              shape: BoxShape.rectangle,
-            ),
-            weekendTextStyle: TextStyle(color: SlectivColors.blackColor),
-            weekendDecoration: BoxDecoration(
-              color: SlectivColors.whiteColor,
-              shape: BoxShape.rectangle,
-            ),
-            outsideTextStyle: TextStyle(color: SlectivColors.greyBooking),
-            holidayTextStyle: TextStyle(color: SlectivColors.blackColor),
-            selectedDecoration: BoxDecoration(
-              color: SlectivColors.warningColor,
-              shape: BoxShape.rectangle,
-            ),
-          ),
-          daysOfWeekStyle: const DaysOfWeekStyle(
-            weekendStyle: TextStyle(
-                color: SlectivColors.cancelAndNegatifSnackbarButtonColor),
-          ),
-          headerStyle: const HeaderStyle(
-            formatButtonVisible: false,
-            titleCentered: true,
-            leftChevronVisible: true,
-            rightChevronVisible: true,
-          ),
-          onFormatChanged: (format) {},
-          onPageChanged: (focusedDay) {
+    return Obx(
+      () => TableCalendar(
+        focusedDay:
+            controller.focusedDay.value.isBefore(lastDay)
+                ? controller.focusedDay.value
+                : lastDay,
+        firstDay: firstDay,
+        lastDay: lastDay,
+        selectedDayPredicate: (day) {
+          return isSameDay(controller.selectedDay.value, day);
+        },
+        onDaySelected: (selectedDay, focusedDay) {
+          if (selectedDay.isAfter(
+            DateTime.now().subtract(const Duration(days: 1)),
+          )) {
+            controller.selectedDay.value = selectedDay;
             controller.focusedDay.value =
                 focusedDay.isBefore(lastDay) ? focusedDay : lastDay;
-          },
-          calendarBuilders: CalendarBuilders(
-            defaultBuilder: (context, day, focusedDay) {
-              if (day.isBefore(DateTime.now())) {
-                return Container(); // Hide days before today
-              } else {
-                return Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: SlectivColors.blackColor,
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${day.day}',
-                        style: const TextStyle(color: SlectivColors.whiteColor),
-                      ),
-                    ),
-                  ),
-                );
-              }
-            },
-            todayBuilder: (context, day, focusedDay) {
+            controller.selectedTime.value = '';
+          }
+        },
+        enabledDayPredicate: (day) {
+          return day.isAfter(DateTime.now().subtract(const Duration(days: 1)));
+        },
+        calendarStyle: const CalendarStyle(
+          todayTextStyle: TextStyle(color: SlectivColors.whiteColor),
+          todayDecoration: BoxDecoration(
+            color: SlectivColors.blackColor,
+            shape: BoxShape.rectangle,
+          ),
+          defaultTextStyle: TextStyle(color: SlectivColors.blackColor),
+          defaultDecoration: BoxDecoration(
+            color: SlectivColors.whiteColor,
+            shape: BoxShape.rectangle,
+          ),
+          weekendTextStyle: TextStyle(color: SlectivColors.blackColor),
+          weekendDecoration: BoxDecoration(
+            color: SlectivColors.whiteColor,
+            shape: BoxShape.rectangle,
+          ),
+          outsideTextStyle: TextStyle(color: SlectivColors.greyBooking),
+          holidayTextStyle: TextStyle(color: SlectivColors.blackColor),
+          selectedDecoration: BoxDecoration(
+            color: SlectivColors.warningColor,
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        daysOfWeekStyle: const DaysOfWeekStyle(
+          weekendStyle: TextStyle(
+            color: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+          ),
+        ),
+        headerStyle: const HeaderStyle(
+          formatButtonVisible: false,
+          titleCentered: true,
+          leftChevronVisible: true,
+          rightChevronVisible: true,
+        ),
+        onFormatChanged: (format) {},
+        onPageChanged: (focusedDay) {
+          controller.focusedDay.value =
+              focusedDay.isBefore(lastDay) ? focusedDay : lastDay;
+        },
+        calendarBuilders: CalendarBuilders(
+          defaultBuilder: (context, day, focusedDay) {
+            if (day.isBefore(DateTime.now())) {
+              return Container(); // Hide days before today
+            } else {
               return Center(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -116,8 +102,26 @@ class SlectivCalendarReservation extends StatelessWidget {
                   ),
                 ),
               );
-            },
-          ),
-        ));
+            }
+          },
+          todayBuilder: (context, day, focusedDay) {
+            return Center(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: SlectivColors.blackColor,
+                  shape: BoxShape.rectangle,
+                ),
+                child: Center(
+                  child: Text(
+                    '${day.day}',
+                    style: const TextStyle(color: SlectivColors.whiteColor),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

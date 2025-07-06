@@ -223,7 +223,7 @@ class SlectivWidePhotobox extends StatelessWidget {
                   launchUrl(adminContactUrl);
                 },
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 24),
             ],
           ),
         ),

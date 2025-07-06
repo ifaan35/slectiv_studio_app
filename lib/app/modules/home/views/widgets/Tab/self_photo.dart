@@ -225,7 +225,7 @@ class SlectivSelfPhoto extends StatelessWidget {
                   Get.to(const BottomNavigationBarView());
                 },
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 24),
             ],
           ),
         ),
