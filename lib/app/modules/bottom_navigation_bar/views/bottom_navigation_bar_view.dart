@@ -24,10 +24,8 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
 
       // Modern Bottom Navigation Bar
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: SlectivColors.whiteColor,
-          borderRadius: BorderRadius.circular(35),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -44,7 +42,7 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
           child: Obx(
             () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -122,7 +120,7 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
             Icon(
               isSelected ? selectedIcon : icon,
               color: isSelected ? Colors.white : Colors.grey.shade600,
-              size: 24,
+              size: 15,
             ),
             const SizedBox(height: 4),
             Text(
@@ -153,18 +151,17 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         decoration: BoxDecoration(
           color: isSelected ? SlectivColors.primaryBlue : Colors.transparent,
-          borderRadius: BorderRadius.circular(25),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             userImage.isNotEmpty
                 ? Container(
-                  width: 24,
-                  height: 24,
+                  width: 20,
+                  height: 20,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -186,7 +183,7 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
                       ? FluentIcons.person_24_filled
                       : FluentIcons.person_24_regular,
                   color: isSelected ? Colors.white : Colors.grey.shade600,
-                  size: 24,
+                  size: 15,
                 ),
             const SizedBox(height: 4),
             Text(

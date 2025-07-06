@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slectiv_studio_app/app/modules/booking/views/widgets/booking_button_modern.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/booking_header.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/calendar_reservation.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/choose_date_title.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/color_dropdown.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/color_dropdown_title.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/person_dropdown.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/person_dropdown_title.dart';
-import 'package:slectiv_studio_app/app/modules/booking/views/widgets/time_reservation.dart';
+import 'package:slectiv_studio_app/app/modules/booking/views/widgets/modern_booking_header.dart';
+import 'package:slectiv_studio_app/app/modules/booking/views/widgets/modern_calendar_section.dart';
+import 'package:slectiv_studio_app/app/modules/booking/views/widgets/modern_time_selection.dart';
+import 'package:slectiv_studio_app/app/modules/booking/views/widgets/modern_service_selection.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import '../controllers/booking_controller.dart';
 
@@ -27,25 +23,29 @@ class BookingView extends GetView<BookingController> {
     controller.selectedTime.value = '';
 
     return Scaffold(
-      backgroundColor: SlectivColors.backgroundColor,
+      backgroundColor: SlectivColors.lightBlueBackground,
       body: SafeArea(
         child: Column(
           children: [
-            // Modern Header with gradient
+            // Modern Header with enhanced design
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    SlectivColors.primaryColor,
-                    SlectivColors.submitButtonColor,
+                    SlectivColors.primaryBlue,
+                    SlectivColors.secondaryBlue,
                   ],
+                ),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: SlectivColors.primaryColor.withValues(alpha: 0.3),
+                    color: SlectivColors.primaryBlue.withOpacity(0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -53,114 +53,82 @@ class BookingView extends GetView<BookingController> {
               ),
               child: Column(
                 children: [
-                  const SlectivBookingHeader(),
-                  const SizedBox(height: 16),
-                  // Welcome text
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Book Your Session',
-                          style: GoogleFonts.spaceGrotesk(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
+                  const ModernBookingHeader(),
+                  const SizedBox(height: 24),
+                  // Enhanced welcome section
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Choose your preferred date, time, and service options',
-                          style: GoogleFonts.spaceGrotesk(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white.withValues(alpha: 0.9),
-                          ),
+                        child: const Icon(
+                          Icons.event_available,
+                          color: Colors.white,
+                          size: 28,
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Book Your Session',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Choose your preferred date, time, and service options',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white.withOpacity(0.9),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
 
-            // Scrollable content
+            // Scrollable content with modern design
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 24),
-
-                    // Calendar Section with modern card
-                    _buildModernSection(
-                      icon: Icons.calendar_today,
-                      title: 'Select Date',
-                      subtitle: 'Choose your preferred session date',
-                      child: Column(
-                        children: [
-                          SlectivCalendarReservation(
-                            controller: controller,
-                            now: now,
-                          ),
-                          const SizedBox(height: 16),
-                          const SlectivChooseDateTitle(),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Time Section with modern card
-                    _buildModernSection(
-                      icon: Icons.access_time,
-                      title: 'Select Time',
-                      subtitle: 'Pick your preferred session time',
-                      child: SlectivTimeReservation(
-                        controller: controller,
-                        now: now,
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Service Options Section
-                    _buildModernSection(
-                      icon: Icons.palette,
-                      title: 'Background Color',
-                      subtitle: 'Choose your photo background',
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SlectivColorDropdownTitle(),
-                          const SizedBox(height: 8),
-                          SlectivColorDropdown(controller: controller),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // People Section
-                    _buildModernSection(
-                      icon: Icons.people,
-                      title: 'Number of People',
-                      subtitle: 'How many people will be in the photo?',
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SlectivPersonDropdownTitle(),
-                          const SizedBox(height: 8),
-                          SlectivPersonDropdown(controller: controller),
-                        ],
-                      ),
-                    ),
-
+                    // Progress indicator
+                    _buildProgressIndicator(),
                     const SizedBox(height: 32),
 
-                    // Booking Button
+                    // Calendar Section
+                    ModernCalendarSection(controller: controller, now: now),
+                    const SizedBox(height: 24),
+
+                    // Time Selection Section
+                    ModernTimeSelection(controller: controller, now: now),
+                    const SizedBox(height: 24),
+
+                    // Service Selection Section
+                    ModernServiceSelection(controller: controller),
+                    const SizedBox(height: 32),
+
+                    // Booking Summary Card
+                    _buildBookingSummary(controller),
+                    const SizedBox(height: 24),
+
+                    // Enhanced Booking Button
                     SlectivBookingButton(controller: controller),
                     const SizedBox(height: 32),
                   ],
@@ -173,82 +141,179 @@ class BookingView extends GetView<BookingController> {
     );
   }
 
-  Widget _buildModernSection({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Widget child,
-  }) {
+  Widget _buildProgressIndicator() {
     return Container(
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          // Section Header
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        SlectivColors.primaryColor,
-                        SlectivColors.submitButtonColor,
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(icon, color: Colors.white, size: 20),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.spaceGrotesk(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: SlectivColors.blackColor,
-                        ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.spaceGrotesk(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: SlectivColors.hintColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Section Content
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: child,
-          ),
+          _buildProgressStep(1, 'Date', true),
+          _buildProgressLine(true),
+          _buildProgressStep(2, 'Time', false),
+          _buildProgressLine(false),
+          _buildProgressStep(3, 'Options', false),
+          _buildProgressLine(false),
+          _buildProgressStep(4, 'Confirm', false),
         ],
       ),
     );
   }
+
+  Widget _buildProgressStep(int step, String label, bool isActive) {
+    return Column(
+      children: [
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color:
+                isActive ? SlectivColors.primaryBlue : SlectivColors.hintColor,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(
+              '$step',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: isActive ? Colors.white : SlectivColors.textGray,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color:
+                isActive ? SlectivColors.primaryBlue : SlectivColors.textGray,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProgressLine(bool isActive) {
+    return Expanded(
+      child: Container(
+        height: 2,
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: isActive ? SlectivColors.primaryBlue : SlectivColors.hintColor,
+          borderRadius: BorderRadius.circular(1),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBookingSummary(BookingController controller) {
+    return Obx(() {
+      bool hasSelections =
+          controller.selectedDay.value.toString().isNotEmpty ||
+          controller.selectedTime.value.isNotEmpty ||
+          controller.selectedOption.value.isNotEmpty ||
+          controller.selectedPerson.value.isNotEmpty;
+
+      if (!hasSelections) return const SizedBox.shrink();
+
+      return Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              SlectivColors.primaryBlue.withOpacity(0.1),
+              SlectivColors.secondaryBlue.withOpacity(0.1),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: SlectivColors.primaryBlue.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.summarize,
+                  color: SlectivColors.primaryBlue,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Booking Summary',
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: SlectivColors.primaryBlue,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (controller.selectedDay.value.toString().isNotEmpty) ...[
+              _buildSummaryItem(
+                'Date',
+                controller.selectedDay.value.toString().split(' ')[0],
+              ),
+              const SizedBox(height: 8),
+            ],
+            if (controller.selectedTime.value.isNotEmpty) ...[
+              _buildSummaryItem('Time', controller.selectedTime.value),
+              const SizedBox(height: 8),
+            ],
+            if (controller.selectedOption.value.isNotEmpty) ...[
+              _buildSummaryItem('Background', controller.selectedOption.value),
+              const SizedBox(height: 8),
+            ],
+            if (controller.selectedPerson.value.isNotEmpty) ...[
+              _buildSummaryItem('People', controller.selectedPerson.value),
+            ],
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildSummaryItem(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: SlectivColors.textGray,
+          ),
+        ),
+        Text(
+          value,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: SlectivColors.blackColor,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ...existing code...
 }

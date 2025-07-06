@@ -131,10 +131,10 @@ class SlectivTexts {
   static const String selfPhotoPrice = "75K";
   static const String selfPhotoPerson = "1-3 Person";
   static const String selfPhotoFee = "additional fee 20k/1 person";
-  static const String minutes15SessionFeature = "• 15 Minutes Session";
-  static const String softliteFeature = "• Softlite";
-  static const String printedPhotoFeature = "• Printed Photo";
-  static const String chooseBackgroundFeature = "• Choose Background";
+  static const String minutes15SessionFeature = "15 Minutes Session";
+  static const String softliteFeature = "Softlite";
+  static const String printedPhotoFeature = "Printed Photo";
+  static const String chooseBackgroundFeature = "Choose Background";
 
   // -- Wide Photobox
   static const String widePhotoboxTitle = "Wide Photobox";
@@ -147,19 +147,19 @@ class SlectivTexts {
   static const String photoboothButtonName = "Contact Us";
   static const String photoboothDescription =
       "Step into our Photobooth and let the fun begin! Perfect for any event, our Photobooth captures spontaneous moments and candid smiles. With a variety of props and backdrops, you and your guests can create unforgettable memories. Strike a pose and take home a keepsake that will make you smile every time you see it.";
-  static const String photoboothFeature = "• Photobooth";
+  static const String photoboothFeature = "Photobooth";
 
   // -- portrait
   static const String potraitTitle = "Potrait";
   static const String potraitButtonName = "Contact Us";
   static const String potraitDescription =
       "Unveil your essence with our portrait service. Whether it's a professional headshot, a cherished family portrait, or a personal photoshoot, we capture the depth of your personality in every frame. From striking angles to genuine expressions, each portrait tells a unique story that reflects your true self.";
-  static const String hours1SessionFeature = "• 1 Hours Session";
-  static const String allSoftliteFeature = "• All Softlite";
-  static const String printed4RPhotoFeature = "• 4r Printed Photo";
-  static const String includePhotographerFeature = "• Include Photographer";
-  static const String widePhotoboxFeature = "• Wide Photobox";
-  static const String hightAngleFeature = "• High Angle Photobooth";
+  static const String hours1SessionFeature = "1 Hours Session";
+  static const String allSoftliteFeature = "All Softlite";
+  static const String printed4RPhotoFeature = "4r Printed Photo";
+  static const String includePhotographerFeature = "Include Photographer";
+  static const String widePhotoboxFeature = "Wide Photobox";
+  static const String hightAngleFeature = "High Angle Photobooth";
 
   // -- Gallery
   static const String galleryWellcome = "HELLO,";
@@ -226,7 +226,7 @@ class SlectivTexts {
 
   // -- Booking Screen
   static const String bookingNow = "Booking Now";
-  static const String bookingTitle = "Select Date";
+  static const String bookingTitle = "Booking";
   static const String bookingTitle1 = "Select Date";
   static const String bookingTitle2 = "Select Time";
   static const String bookingTitle3 = "Color";
