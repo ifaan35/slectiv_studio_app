@@ -15,26 +15,42 @@ class SlectiveWidgetButtonBooking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: double.infinity,
       height: 52,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [SlectivColors.primaryBlue, SlectivColors.secondaryBlue],
+        ),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: SlectivColors.primaryBlue.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(12),
+          child: Center(
+            child: Text(
+              buttonName,
+              style: GoogleFonts.spaceGrotesk(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: SlectivColors.whiteColor,
+                ),
+              ),
             ),
           ),
-          backgroundColor: WidgetStateProperty.all(backgroundColor),
-        ),
-        child: Text(
-          buttonName,
-          style: GoogleFonts.spaceGrotesk(
-              textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: SlectivColors.whiteColor)),
         ),
       ),
     );

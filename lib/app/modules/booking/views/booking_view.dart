@@ -137,55 +137,6 @@ class BookingView extends GetView<BookingController> {
     );
   }
 
-  Widget _buildProgressStep(int step, String label, bool isActive) {
-    return Column(
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color:
-                isActive ? SlectivColors.primaryBlue : SlectivColors.hintColor,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(
-              '$step',
-              style: GoogleFonts.spaceGrotesk(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: isActive ? Colors.white : SlectivColors.textGray,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: GoogleFonts.spaceGrotesk(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color:
-                isActive ? SlectivColors.primaryBlue : SlectivColors.textGray,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildProgressLine(bool isActive) {
-    return Expanded(
-      child: Container(
-        height: 2,
-        margin: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-          color: isActive ? SlectivColors.primaryBlue : SlectivColors.hintColor,
-          borderRadius: BorderRadius.circular(1),
-        ),
-      ),
-    );
-  }
-
   Widget _buildBookingSummary(BookingController controller) {
     return Obx(() {
       bool hasSelections =
@@ -252,6 +203,13 @@ class BookingView extends GetView<BookingController> {
             ],
             if (controller.selectedPerson.value.isNotEmpty) ...[
               _buildSummaryItem('People', controller.selectedPerson.value),
+              const SizedBox(height: 8),
+            ],
+            // Price calculation
+            if (controller.selectedPerson.value.isNotEmpty) ...[
+              const Divider(color: SlectivColors.primaryBlue, thickness: 0.5),
+              const SizedBox(height: 8),
+              _buildPriceCalculation(controller.selectedPerson.value),
             ],
           ],
         ),
@@ -283,5 +241,92 @@ class BookingView extends GetView<BookingController> {
     );
   }
 
-  // ...existing code...
+  Widget _buildPriceCalculation(String personCount) {
+    int numberOfPeople = int.tryParse(personCount) ?? 1;
+    int basePrice = 75000; // Base price for 1-3 people
+    int additionalPrice = 0;
+
+    if (numberOfPeople > 3) {
+      additionalPrice = (numberOfPeople - 3) * 20000;
+    }
+
+    int totalPrice = basePrice + additionalPrice;
+
+    return Column(
+      children: [
+        // Base price
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Base Price (1-3 people)',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: SlectivColors.textGray,
+              ),
+            ),
+            Text(
+              'Rp ${basePrice.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: SlectivColors.blackColor,
+              ),
+            ),
+          ],
+        ),
+        // Additional price if more than 3 people
+        if (numberOfPeople > 3) ...[
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Additional (${numberOfPeople - 3} person × Rp 20.000)',
+                style: GoogleFonts.spaceGrotesk(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: SlectivColors.textGray,
+                ),
+              ),
+              Text(
+                'Rp ${additionalPrice.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+                style: GoogleFonts.spaceGrotesk(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: SlectivColors.blackColor,
+                ),
+              ),
+            ],
+          ),
+        ],
+        const SizedBox(height: 8),
+        const Divider(color: SlectivColors.primaryBlue, thickness: 0.5),
+        const SizedBox(height: 8),
+        // Total price
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Total Price',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: SlectivColors.primaryBlue,
+              ),
+            ),
+            Text(
+              'Rp ${totalPrice.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: SlectivColors.primaryBlue,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }

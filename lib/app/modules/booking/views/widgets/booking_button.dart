@@ -23,11 +23,11 @@ class SlectivBookingButton extends StatelessWidget {
             gradient:
                 isButtonEnabled
                     ? LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
                       colors: [
-                        SlectivColors.primaryColor,
-                        SlectivColors.submitButtonColor,
+                        SlectivColors.primaryBlue,
+                        SlectivColors.secondaryBlue,
                       ],
                     )
                     : null,
@@ -40,9 +40,7 @@ class SlectivBookingButton extends StatelessWidget {
                 isButtonEnabled
                     ? [
                       BoxShadow(
-                        color: SlectivColors.primaryColor.withValues(
-                          alpha: 0.3,
-                        ),
+                        color: SlectivColors.primaryBlue.withValues(alpha: 0.3),
                         blurRadius: 15,
                         offset: const Offset(0, 8),
                       ),
@@ -60,6 +58,7 @@ class SlectivBookingButton extends StatelessWidget {
                           context,
                         );
                         if (confirmed) {
+                          // Show loading dialog
                           Get.dialog(
                             const Center(
                               child: SizedBox(
@@ -74,9 +73,26 @@ class SlectivBookingButton extends StatelessWidget {
                             ),
                             barrierDismissible: false,
                           );
-                          await Future.delayed(const Duration(seconds: 3));
-                          await controller.slectivBookingValidation(controller);
-                          Get.back();
+
+                          try {
+                            // Process booking and payment
+                            await controller.slectivBookingValidation(
+                              controller,
+                            );
+                            // Close loading dialog
+                            Get.back();
+                          } catch (e) {
+                            // Close loading dialog on error
+                            Get.back();
+                            Get.snackbar(
+                              'Error',
+                              'Terjadi kesalahan: ${e.toString()}',
+                              backgroundColor:
+                                  SlectivColors
+                                      .cancelAndNegatifSnackbarButtonColor,
+                              colorText: SlectivColors.whiteColor,
+                            );
+                          }
                         }
                       }
                       : null,
@@ -118,75 +134,147 @@ class SlectivBookingButton extends StatelessWidget {
   Future<bool> _showBookingConfirmation(BuildContext context) async {
     return await showDialog<bool>(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
+              backgroundColor: Colors.white,
+              elevation: 8,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
               ),
-              title: Text(
-                SlectivTexts.snackbarBookingConfirmTitle,
-                style: GoogleFonts.spaceGrotesk(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: SlectivColors.blackColor,
-                ),
-              ),
-              content: Text(
-                SlectivTexts.snackbarBookingConfirmSubtitle,
-                textAlign: TextAlign.justify,
-                style: GoogleFonts.spaceGrotesk(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: SlectivColors.hintColor,
-                ),
-              ),
-              actions: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: SlectivColors.primaryBlue,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(
-                      SlectivTexts.bookingNo,
-                      style: GoogleFonts.spaceGrotesk(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: SlectivColors.primaryBlue,
+              contentPadding: const EdgeInsets.all(24),
+              title: null, // Remove default title
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Custom Title with Icon
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              SlectivColors.primaryBlue.withOpacity(0.2),
+                              SlectivColors.secondaryBlue.withOpacity(0.2),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.help_outline_rounded,
+                          color: SlectivColors.primaryBlue,
+                          size: 24,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        SlectivColors.primaryColor,
-                        SlectivColors.submitButtonColor,
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text(
-                      SlectivTexts.bookingYes,
-                      style: GoogleFonts.spaceGrotesk(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          SlectivTexts.snackbarBookingConfirmTitle,
+                          style: GoogleFonts.spaceGrotesk(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: SlectivColors.primaryBlue,
+                          ),
+                        ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Content
+                  Text(
+                    SlectivTexts.snackbarBookingConfirmSubtitle,
+                    style: GoogleFonts.spaceGrotesk(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: SlectivColors.textGray,
+                      height: 1.6,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 32),
+                  // Action Buttons
+                  Row(
+                    children: [
+                      // Cancel Button
+                      Expanded(
+                        child: Container(
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: SlectivColors.primaryBlue.withOpacity(0.4),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: Text(
+                              SlectivTexts.bookingNo,
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: SlectivColors.primaryBlue,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      // Confirm Button
+                      Expanded(
+                        child: Container(
+                          height: 48,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                SlectivColors.primaryBlue,
+                                SlectivColors.secondaryBlue,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: SlectivColors.primaryBlue.withOpacity(
+                                  0.4,
+                                ),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: Text(
+                              SlectivTexts.bookingYes,
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             );
           },
         ) ??

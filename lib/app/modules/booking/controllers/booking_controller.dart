@@ -239,8 +239,11 @@ class BookingController extends GetxController {
         backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
         colorText: SlectivColors.whiteColor,
       );
-    } else {
-      // await controller.saveBooking();
+      return;
+    }
+
+    try {
+      // Initialize Midtrans SDK
       midtrans = await MidtransSDK.init(
         config: MidtransConfig(
           clientKey: 'SB-Mid-client-ut94ktGniDplisdy',
@@ -253,6 +256,15 @@ class BookingController extends GetxController {
           ),
         ),
       );
+
+      // Calculate total amount
+      int totalAmount = 75000;
+      int personCount = int.parse(controller.selectedPerson.value);
+      if (personCount > 3) {
+        totalAmount += (personCount - 3) * 20000;
+      }
+
+      // Create transaction
       var response = await http.post(
         Uri.parse('https://app.sandbox.midtrans.com/snap/v1/transactions'),
         headers: {
@@ -264,16 +276,9 @@ class BookingController extends GetxController {
         body: jsonEncode({
           "transaction_details": {
             "order_id": "order-id-${DateTime.now().millisecondsSinceEpoch}",
-            "gross_amount":
-                75000 +
-                (int.parse(controller.selectedPerson.value) > 3
-                    ? (int.parse(controller.selectedPerson.value) - 3) * 20000
-                    : 0),
+            "gross_amount": totalAmount,
           },
-          "enabled_payments": [
-            "gopay",
-            "shopeepay",
-          ], // Make sure "dana" is here
+          "enabled_payments": ["gopay", "shopeepay", "dana"],
           "customer_details": {
             "first_name": "Budi",
             "last_name": "Pratama",
@@ -283,48 +288,57 @@ class BookingController extends GetxController {
         }),
       );
 
-      if (response.statusCode == 200) {
-        var responseData = jsonDecode(response.body);
-        print('Response data: $responseData');
-        // Check if "dana" exists in the payment method list
-      }
-
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
         var token = responseData['token'];
-        // save token to apiToken
         controller.apiToken.value = token;
         print('Transaction token: $token');
+
+        // Set up transaction callback
+        midtrans?.setTransactionFinishedCallback((result) {
+          print('Transaction finished with result: $result');
+          if (result.isTransactionCanceled == true) {
+            Get.snackbar(
+              SlectivTexts.errorBookingValidationTitle,
+              'Pembayaran dibatalkan',
+              backgroundColor:
+                  SlectivColors.cancelAndNegatifSnackbarButtonColor,
+              colorText: SlectivColors.whiteColor,
+            );
+          } else {
+            Get.snackbar(
+              SlectivTexts.successBookingValidationTitle,
+              SlectivTexts.successBookingValidationSubtitle,
+              backgroundColor: SlectivColors.positifSnackbarColor,
+              colorText: SlectivColors.whiteColor,
+            );
+            controller.saveBooking();
+          }
+        });
+
+        // Configure and start payment
+        midtrans?.setUIKitCustomSetting(skipCustomerDetailsPages: true);
+        await midtrans?.startPaymentUiFlow(token: token);
       } else {
         print(
           'Failed to create transaction. Status code: ${response.statusCode}',
         );
+        print('Response body: ${response.body}');
+        Get.snackbar(
+          'Error',
+          'Gagal membuat transaksi. Silakan coba lagi.',
+          backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+          colorText: SlectivColors.whiteColor,
+        );
       }
-      midtrans!.setUIKitCustomSetting(skipCustomerDetailsPages: true);
-      // open midtrans payment page
-      midtrans?.startPaymentUiFlow(token: controller.apiToken.value);
-
-      midtrans?.setTransactionFinishedCallback((result) {
-        print('Transaction finished with result: $result');
-        if (result.isTransactionCanceled == true) {
-          Get.snackbar(
-            SlectivTexts.errorBookingValidationTitle,
-            SlectivTexts.errorBookingValidationSubtitle,
-            backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
-            colorText: SlectivColors.whiteColor,
-          );
-        } else {
-          Get.snackbar(
-            SlectivTexts.successBookingValidationTitle,
-            SlectivTexts.successBookingValidationSubtitle,
-            backgroundColor: SlectivColors.positifSnackbarColor,
-            colorText: SlectivColors.whiteColor,
-          );
-          controller.saveBooking();
-        }
-      });
-      // await controller.saveBooking();
-      // Get.offAll(const BottomNavigationBarView());
+    } catch (e) {
+      print('Error in payment process: $e');
+      Get.snackbar(
+        'Error',
+        'Terjadi kesalahan: ${e.toString()}',
+        backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+        colorText: SlectivColors.whiteColor,
+      );
     }
   }
 

@@ -55,20 +55,19 @@ class SlectivPersonDropdown extends StatelessWidget {
                     : controller.selectedQuantity.value,
             onChanged: (String? newValue) {
               controller.selectedQuantity.value = newValue!;
-              controller.selectedPerson.value = newValue[0];
+              // Extract number from "X Person" format
+              controller.selectedPerson.value = newValue.split(' ')[0];
             },
             items:
                 <String>[
-                  '1',
-                  '2',
-                  '3',
-                  '4(+20.000)',
-                  '5(+40.000)',
-                  '6(+60.000)',
-                  '7(+80.000)',
-                  '8(+100.000)',
-                  '9(+120.000)',
-                  '10(+140.000)',
+                  '1 Person',
+                  '2 Person',
+                  '3 Person',
+                  '4 Person',
+                  '5 Person',
+                  '6 Person',
+                  '7 Person',
+                  '8 Person',
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,

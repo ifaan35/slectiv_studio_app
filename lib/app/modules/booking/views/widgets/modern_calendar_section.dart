@@ -125,13 +125,13 @@ class ModernCalendarSection extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: SlectivColors.primaryBlue,
+                              color: SlectivColors.secondaryBlue,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(
                               Icons.check,
                               color: Colors.white,
-                              size: 16,
+                              size: 14,
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -139,9 +139,9 @@ class ModernCalendarSection extends StatelessWidget {
                             child: Text(
                               'Selected: ${controller.selectedDay.value.toString().split(' ')[0]}',
                               style: GoogleFonts.spaceGrotesk(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: SlectivColors.primaryBlue,
+                                color: SlectivColors.secondaryBlue,
                               ),
                             ),
                           ),

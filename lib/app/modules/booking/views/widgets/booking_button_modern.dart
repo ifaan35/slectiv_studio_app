@@ -75,9 +75,26 @@ class SlectivBookingButton extends StatelessWidget {
                             ),
                             barrierDismissible: false,
                           );
-                          await Future.delayed(const Duration(seconds: 3));
-                          await controller.slectivBookingValidation(controller);
-                          Get.back();
+
+                          try {
+                            // Process booking and payment
+                            await controller.slectivBookingValidation(
+                              controller,
+                            );
+                            // Close loading dialog
+                            Get.back();
+                          } catch (e) {
+                            // Close loading dialog on error
+                            Get.back();
+                            Get.snackbar(
+                              'Error',
+                              'Terjadi kesalahan: ${e.toString()}',
+                              backgroundColor:
+                                  SlectivColors
+                                      .cancelAndNegatifSnackbarButtonColor,
+                              colorText: SlectivColors.whiteColor,
+                            );
+                          }
                         }
                       }
                       : null,

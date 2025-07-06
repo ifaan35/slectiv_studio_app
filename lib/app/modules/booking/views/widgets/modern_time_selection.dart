@@ -139,7 +139,7 @@ class ModernTimeSelection extends StatelessWidget {
                           Text(
                             'Selected Time: ${controller.selectedTime.value}',
                             style: GoogleFonts.spaceGrotesk(
-                              fontSize: 16,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: SlectivColors.secondaryBlue,
                             ),

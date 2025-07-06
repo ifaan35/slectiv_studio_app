@@ -18,7 +18,7 @@ class SlectivColors {
   ); // Light blue tint background
 
   // -- Background Colors
-  static const Color backgroundColor = Color(0xFFECE7DD);
+  static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color bottomNVBackgroundColor = Color(0xFFCCCCCC);
 
   // -- Onboarding Colors
