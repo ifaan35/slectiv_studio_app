@@ -37,6 +37,7 @@ class SlectivImages {
       "assets/videos/SaveIG.App_3318307591196837453.mp4";
 
   // -- Gallery Image
+  static const String galeryImage = "assets/images/gallery/image.png";
   static const String galeryImage1 = "assets/images/gallery/image1.png";
   static const String galeryImage2 = "assets/images/gallery/image2.png";
   static const String galeryImage3 = "assets/images/gallery/image3.png";
@@ -46,6 +47,7 @@ class SlectivImages {
   static const String galeryImage7 = "assets/images/gallery/image7.png";
   static const String galeryImage8 = "assets/images/gallery/image8.png";
   static const String galeryImage9 = "assets/images/gallery/image9.png";
+  static const String galeryImage10 = "assets/images/gallery/image10.png";
 
   // -- Booking Success Image
   static const String bookingSuccessImage =

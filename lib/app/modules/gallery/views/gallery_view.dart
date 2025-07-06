@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/app/modules/gallery/controllers/gallery_controller.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/authentication_header_blue.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/first_galley_history.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/first_welcome_gallery.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/footer_widget.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/gallery_history_header.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/history_divider.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/lines_divider.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/photo_gallery.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/second_gallery_history.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/second_welcome_gallery.dart';
-import 'package:slectiv_studio_app/app/modules/gallery/views/widgets/third_gallery_history.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
+import 'widgets/gallery_header.dart';
+import 'widgets/gallery_introduction_card.dart';
+import 'widgets/studio_history_section.dart';
+import 'widgets/photo_gallery_section.dart';
+import 'widgets/gallery_footer.dart';
 
 class GalleryView extends GetView<GalleryController> {
-  const GalleryView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(GalleryController());
@@ -26,58 +18,37 @@ class GalleryView extends GetView<GalleryController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Header Section with Gradient
+              const GalleryHeader(),
+
+              // Content Section
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // -- Welcome Gallery Text
-                    const SizedBox(height: 24),
-                    const SlectiveFirstWelcomeGallery(),
+                    const SizedBox(height: 32),
 
-                    const SlectivSecondWelcomeGallery(),
-                    const SizedBox(height: 24),
+                    // Gallery Introduction Card
+                    const GalleryIntroductionCard(),
 
-                    // -- Blue App Logo
-                    const SlectivAuthenticationHeaderBlue(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
-                    // -- History Header Text
-                    const SlectivGalleryHistoryHeader(),
-                    const SizedBox(height: 10),
+                    // Studio History Section
+                    const StudioHistorySection(),
 
-                    // -- First Paragraph of History
-                    const SlectivFirstParagraphGalleryHistory(),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 32),
 
-                    // -- History Divider
-                    const SlectivHistoryDivider(),
-                    const SizedBox(height: 10),
+                    // Photo Gallery Section
+                    PhotoGallerySection(controller: controller),
 
-                    // -- Second Paragraph of History
-                    const SlectivSecondParagraphGalleryHistory(),
-                    const SizedBox(height: 10),
-
-                    // -- History Divider
-                    const SlectivHistoryDivider(),
-                    const SizedBox(height: 10),
-
-                    // -- Third Paragraph of History
-                    const SlectivThirdParagraphGalleryHistory(),
-                    const SizedBox(height: 34),
-
-                    // -- Lines Divider
-                    const SlectivLinesDivider(),
-                    const SizedBox(height: 24),
-
-                    // Photo Gallery
-                    SlectivPhotoGallery(controller: controller),
                     const SizedBox(height: 24),
                   ],
                 ),
               ),
+
               // Footer
-              const SlectivFooterWidget(),
+              const GalleryFooter(),
             ],
           ),
         ),

@@ -28,7 +28,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH_SCREEN;
+  static const INITIAL = Routes.BOTTOM_NAVIGATION_BAR;
 
   static final routes = [
     GetPage(
@@ -73,7 +73,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.GALLERY,
-      page: () => const GalleryView(),
+      page: () => GalleryView(),
       binding: GalleryBinding(),
     ),
     GetPage(

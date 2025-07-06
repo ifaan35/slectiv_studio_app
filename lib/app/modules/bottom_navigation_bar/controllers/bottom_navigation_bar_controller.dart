@@ -32,7 +32,7 @@ class BottomNavigationBarController extends GetxController {
   List<Widget> screens = [
     const HomeView(),
     const CircularProgressIndicator(),
-    const GalleryView(),
+    GalleryView(),
     ProfileView(),
   ];
   @override
