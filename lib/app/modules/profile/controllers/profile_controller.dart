@@ -17,6 +17,7 @@ class ProfileController extends GetxController {
   var email = ''.obs;
   var phoneNumber = ''.obs;
   var profileImageUrl = ''.obs;
+  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -24,26 +25,60 @@ class ProfileController extends GetxController {
     fetchUserData();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    fetchUserData();
+  }
+
   Future<void> fetchUserData() async {
     try {
+      isLoading.value = true;
       User? user = _auth.currentUser;
       if (user != null) {
+        // Juga ambil email dari FirebaseAuth
+        email.value = user.email ?? '';
+
         DocumentSnapshot userSnapshot =
             await _userCollection.doc(user.uid).get();
         if (userSnapshot.exists) {
           var userData = userSnapshot.data() as Map<String, dynamic>;
           name.value = userData[SlectivTexts.profileName] ?? '';
-          email.value = userData[SlectivTexts.profileEmail] ?? '';
+          // Update email dari Firestore jika ada, jika tidak gunakan dari Auth
+          if (userData[SlectivTexts.profileEmail] != null &&
+              userData[SlectivTexts.profileEmail].toString().isNotEmpty) {
+            email.value = userData[SlectivTexts.profileEmail];
+          }
           phoneNumber.value = userData[SlectivTexts.profilePhoneNumber] ?? '';
           profileImageUrl.value = userData[SlectivTexts.profileImageUrl] ?? '';
         } else {
           print(SlectivTexts.profileNoUserDataFound);
+          // Create initial user data if it doesn't exist
+          await _createInitialUserData(user);
         }
       } else {
         print(SlectivTexts.profileNoUserLoggedIn);
       }
     } catch (e) {
       print("${SlectivTexts.profileErrorFetchingUserData} $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> _createInitialUserData(User user) async {
+    try {
+      await _userCollection.doc(user.uid).set({
+        SlectivTexts.profileName: user.displayName ?? '',
+        SlectivTexts.profileEmail: user.email ?? '',
+        SlectivTexts.profilePhoneNumber: '',
+        SlectivTexts.profileImageUrl: '',
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      // Refresh data after creation
+      await fetchUserData();
+    } catch (e) {
+      print("Error creating initial user data: $e");
     }
   }
 
@@ -123,24 +158,27 @@ class ProfileController extends GetxController {
     User? user = _auth.currentUser;
     if (user != null) {
       try {
+        isLoading.value = true;
         await _userCollection.doc(user.uid).update({
           SlectivTexts.profileName: newName,
         });
         name.value = newName;
-        Get.back();
+        update(); // Force UI update
         Get.snackbar(
           SlectivTexts.profileSuccess,
-          SlectivTexts.profileUpdateNameSubtitle,
+          "Name updated successfully",
           backgroundColor: SlectivColors.positifSnackbarColor,
           colorText: SlectivColors.whiteColor,
         );
       } catch (e) {
         Get.snackbar(
           SlectivTexts.snackbarErrorTitle,
-          "${SlectivTexts.snackbarErrorUpdateNameSubtitle} $e",
+          "Failed to update name: $e",
           backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
           colorText: SlectivColors.whiteColor,
         );
+      } finally {
+        isLoading.value = false;
       }
     }
   }
@@ -149,10 +187,12 @@ class ProfileController extends GetxController {
     User? user = _auth.currentUser;
     if (user != null) {
       try {
+        isLoading.value = true;
         await _userCollection.doc(user.uid).update({
           SlectivTexts.profilePhoneNumber: newPhoneNumber,
         });
         phoneNumber.value = newPhoneNumber;
+        update(); // Force UI update
         Get.snackbar(
           SlectivTexts.profileSuccess,
           SlectivTexts.profileUpdatePhoneNumberSubtitle,
@@ -166,6 +206,43 @@ class ProfileController extends GetxController {
           backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
           colorText: SlectivColors.whiteColor,
         );
+      } finally {
+        isLoading.value = false;
+      }
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _auth.signOut();
+      Get.offAllNamed('/login-screen'); // Navigate to login screen
+      Get.snackbar(
+        "Success",
+        "Signed out successfully",
+        backgroundColor: SlectivColors.positifSnackbarColor,
+        colorText: SlectivColors.whiteColor,
+      );
+    } catch (e) {
+      Get.snackbar(
+        SlectivTexts.snackbarErrorTitle,
+        "Failed to sign out: $e",
+        backgroundColor: SlectivColors.cancelAndNegatifSnackbarButtonColor,
+        colorText: SlectivColors.whiteColor,
+      );
+    }
+  }
+
+  Future<void> refreshProfileData() async {
+    await fetchUserData();
+  }
+
+  // Method to ensure user data exists
+  Future<void> ensureUserDataExists() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot userSnapshot = await _userCollection.doc(user.uid).get();
+      if (!userSnapshot.exists) {
+        await _createInitialUserData(user);
       }
     }
   }

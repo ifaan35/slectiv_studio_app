@@ -33,7 +33,7 @@ class BottomNavigationBarController extends GetxController {
     const HomeView(),
     const CircularProgressIndicator(),
     GalleryView(),
-    ProfileView(),
+    const ProfileView(),
   ];
   @override
   void onInit() {

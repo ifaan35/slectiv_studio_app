@@ -151,30 +151,31 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? SlectivColors.primaryBlue : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             userImage.isNotEmpty
                 ? Container(
-                  width: 20,
-                  height: 20,
+                  width: 15,
+                  height: 15,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: isSelected ? Colors.white : Colors.grey.shade600,
-                      width: 2,
+                      width: 1.5,
                     ),
                   ),
                   child: ClipOval(
                     child: Image.network(
                       userImage,
                       fit: BoxFit.cover,
-                      width: 20,
-                      height: 20,
+                      width: 15,
+                      height: 15,
                     ),
                   ),
                 )
