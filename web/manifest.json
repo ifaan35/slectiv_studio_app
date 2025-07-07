@@ -1,11 +1,11 @@
 {
-    "name": "slectiv_studio_app",
-    "short_name": "slectiv_studio_app",
+    "name": "Slectiv Studio",
+    "short_name": "Slectiv Studio",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Professional Photography Studio App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
