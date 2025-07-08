@@ -13,7 +13,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
     return GetBuilder<SplashScreenController>(
       initState: (_) {
         Timer(const Duration(seconds: 4), () {
-          Get.offAllNamed(Routes.ONBOARDING_SCREEN);
+          Get.offAllNamed(Routes.BOTTOM_NAVIGATION_BAR);
         });
       },
       builder: (context) {

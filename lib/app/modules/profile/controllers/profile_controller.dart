@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:slectiv_studio_app/app/controllers/auth_controller.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 
@@ -13,11 +14,15 @@ class ProfileController extends GetxController {
       .collection(SlectivTexts.profileUser);
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // Get AuthController instance
+  AuthController get authController => Get.find<AuthController>();
+
   var name = ''.obs;
   var email = ''.obs;
   var phoneNumber = ''.obs;
   var profileImageUrl = ''.obs;
   var isLoading = false.obs;
+  var isLoggedIn = false.obs;
 
   @override
   void onInit() {
@@ -245,5 +250,11 @@ class ProfileController extends GetxController {
         await _createInitialUserData(user);
       }
     }
+  }
+
+  bool get isUserLoggedIn => authController.isUserLoggedIn;
+
+  void checkAuthState() {
+    authController.checkAuthState();
   }
 }

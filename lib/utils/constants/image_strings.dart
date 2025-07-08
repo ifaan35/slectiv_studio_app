@@ -28,6 +28,12 @@ class SlectivImages {
   static const String photoboothImages = "assets/images/photobooth.jpg";
   static const String potraitImages = "assets/images/potrait.png";
 
+  // -- Aliases for guest views (consistency)
+  static const String selfPhoto = selfPhotoImages;
+  static const String widePhotobox = widePhotoboxImages;
+  static const String photobooth = photoboothImages;
+  static const String potrait = potraitImages;
+
   // -- Lines
   static const String line1 = "assets/lines/line1.png";
   static const String line2 = "assets/lines/line2.png";

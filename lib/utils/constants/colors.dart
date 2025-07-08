@@ -50,4 +50,12 @@ class SlectivColors {
 
   // -- Booking Colors
   static const Color greyBooking = Colors.grey;
+
+  // -- Additional Modern Colors (For Guest Views)
+  static const Color primary = primaryBlue; // Alias for consistency
+  static const Color dark = Color(0xFF1F2937); // Dark text color
+  static const Color darkGrey = Color(
+    0xFF6B7280,
+  ); // Dark grey for secondary text
+  static const Color lightGrey = Color(0xFFE5E7EB); // Light grey for borders
 }
