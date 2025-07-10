@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:slectiv_studio_app/app/modules/booking/controllers/booking_controller.dart';
+import 'package:slectiv_studio_app/app/modules/booking/controllers/cancel_booking_controller.dart';
+import 'package:slectiv_studio_app/app/modules/booking/views/widgets/cancel_booking_dialog.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import 'package:slectiv_studio_app/utils/constants/text_strings.dart';
 import 'package:slectiv_studio_app/app/modules/profile/controllers/profile_controller.dart';
@@ -22,6 +24,9 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
   Widget build(BuildContext context) {
     final BookingController bookingController = Get.put(BookingController());
     final ProfileController profileController = Get.put(ProfileController());
+    final CancelBookingController cancelController = Get.put(
+      CancelBookingController(),
+    );
 
     return Scaffold(
       backgroundColor: SlectivColors.backgroundColor,
@@ -201,6 +206,8 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
                       return buildBookingList(
                         booking[SlectivTexts.bookingDate],
                         booking[SlectivTexts.bookingDetails],
+                        isUpcoming: true,
+                        cancelController: cancelController,
                       );
                     }),
                 if (upcomingBookings.length > 3)
@@ -269,6 +276,8 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
                       return buildBookingList(
                         booking[SlectivTexts.bookingDate],
                         booking[SlectivTexts.bookingDetails],
+                        isUpcoming: false,
+                        cancelController: cancelController,
                       );
                     }),
                 if (completedBookings.length > 3)
@@ -308,11 +317,24 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
     );
   }
 
-  Widget buildBookingList(String date, String bookingDetails) {
+  Widget buildBookingList(
+    String date,
+    String bookingDetails, {
+    required bool isUpcoming,
+    required CancelBookingController cancelController,
+  }) {
     List<String> details = bookingDetails.split('|');
     String time = details[0];
     String color = details[1];
     String person = details[2];
+
+    bool canCancel =
+        isUpcoming && cancelController.canCancelBooking(date, time);
+    Map<String, dynamic> refundInfo = cancelController.getRefundPolicyInfo(
+      date,
+      time,
+    );
+    String refundPolicy = refundInfo['message'] ?? 'Unable to calculate refund';
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -339,31 +361,80 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header with date and time
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: SlectivColors.primaryBlue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    FluentIcons.calendar_20_regular,
-                    color: SlectivColors.primaryBlue,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    "$date • $time",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: SlectivColors.primaryBlue,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: SlectivColors.primaryBlue.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          FluentIcons.calendar_20_regular,
+                          color: SlectivColors.primaryBlue,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          "$date • $time",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: SlectivColors.primaryBlue,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                ),
+                if (canCancel) ...[
+                  const SizedBox(width: 8),
+                  PopupMenuButton<String>(
+                    icon: Icon(
+                      FluentIcons.more_vertical_20_regular,
+                      color: SlectivColors.darkGrey,
+                      size: 20,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    itemBuilder:
+                        (context) => [
+                          PopupMenuItem(
+                            value: 'cancel',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  FluentIcons.dismiss_circle_20_regular,
+                                  color: Colors.red,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 8),
+                                const Text('Cancel Booking'),
+                              ],
+                            ),
+                          ),
+                        ],
+                    onSelected: (value) {
+                      if (value == 'cancel') {
+                        _showCancelDialog(
+                          date,
+                          time,
+                          bookingDetails,
+                          cancelController,
+                        );
+                      }
+                    },
+                  ),
                 ],
-              ),
+              ],
             ),
             const SizedBox(height: 12),
             // Booking details
@@ -384,6 +455,42 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
               SlectivTexts.bookingTitle4,
               person,
             ),
+
+            // Refund policy info for upcoming bookings
+            if (isUpcoming) ...[
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: refundInfo['color'].withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: refundInfo['color'].withOpacity(0.3),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      refundInfo['icon'],
+                      color: refundInfo['color'],
+                      size: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        refundPolicy,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: refundInfo['color'],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -414,6 +521,28 @@ class _SlectivBookingHistoryState extends State<SlectivBookingHistory> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showCancelDialog(
+    String date,
+    String time,
+    String bookingDetails,
+    CancelBookingController cancelController,
+  ) {
+    Get.dialog(
+      CancelBookingDialog(
+        bookingDate: date,
+        bookingTime: time,
+        bookingDetails: bookingDetails,
+        onConfirmCancel: () {
+          cancelController.cancelBooking(
+            bookingDate: date,
+            bookingTime: time,
+            bookingDetails: bookingDetails,
+          );
+        },
+      ),
     );
   }
 }

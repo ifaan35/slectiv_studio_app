@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slectiv_studio_app/app/modules/transaction/views/widgets/modern_transaction_header.dart';
 import 'package:slectiv_studio_app/app/modules/transaction/views/widgets/modern_transaction_stats.dart';
-import 'package:slectiv_studio_app/app/modules/transaction/views/widgets/modern_transaction_tabs.dart';
+import 'package:slectiv_studio_app/app/modules/transaction/views/widgets/admin_transaction_tabs_fixed.dart';
 import 'package:slectiv_studio_app/utils/constants/colors.dart';
 import '../controllers/transaction_controller.dart';
 
@@ -27,8 +27,8 @@ class TransactionView extends GetView<TransactionController> {
               const ModernTransactionStats(),
               const SizedBox(height: 24),
 
-              // Modern Tabs with Content
-              const ModernTransactionTabs(),
+              // Modern Tabs with Content (includes admin refund management)
+              const AdminTransactionTabs(),
             ],
           ),
         ),

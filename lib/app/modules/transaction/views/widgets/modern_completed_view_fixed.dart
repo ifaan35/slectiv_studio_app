@@ -37,19 +37,14 @@ class ModernCompletedView extends StatelessWidget {
           }
 
           List<String> bookingDetails = booking.split('|');
-          if (bookingDetails.isEmpty || bookingDetails.length < 4) {
-            debugPrint("Invalid booking details for booking: '$booking'");
+          if (bookingDetails.isEmpty) {
+            debugPrint("Empty booking details for booking: '$booking'");
             continue;
           }
 
           String time = bookingDetails[0];
-          String color = bookingDetails[1];
-          String person = bookingDetails[2];
-          // String email = bookingDetails[3]; // Not used in this validation
-
-          // Skip if any critical data is empty
-          if (time.isEmpty || color.isEmpty || person.isEmpty) {
-            debugPrint("Missing critical data in booking: '$booking'");
+          if (time.isEmpty) {
+            debugPrint("Empty time in booking: '$booking'");
             continue;
           }
 
@@ -129,11 +124,11 @@ class ModernCompletedView extends StatelessWidget {
       }
 
       return ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.only(bottom: 20),
         itemCount: completedBookings.length,
         itemBuilder: (context, index) {
           final booking = completedBookings[index];
-          return _buildCompactCompletedCard(
+          return _buildModernCompletedCard(
             booking[SlectivTexts.bookingDate],
             booking[SlectivTexts.bookingDetails],
             index,
@@ -180,7 +175,7 @@ class ModernCompletedView extends StatelessWidget {
     );
   }
 
-  Widget _buildCompactCompletedCard(
+  Widget _buildModernCompletedCard(
     String date,
     String bookingDetails,
     int index,
@@ -200,26 +195,56 @@ class ModernCompletedView extends StatelessWidget {
     DateTime parsedDate = DateTime.parse(date);
     String formattedDate =
         "${_getMonthName(parsedDate.month)} ${parsedDate.day}, ${parsedDate.year}";
+    String dayOfWeek = _getDayOfWeek(parsedDate.weekday);
+
+    // Calculate time ago
+    DateTime? bookingTime;
+    String timeAgo = 'Unknown';
+
+    try {
+      List<String> timeParts = time.split(':');
+      if (timeParts.length == 2) {
+        int hour = int.parse(timeParts[0]);
+        int minute = int.parse(timeParts[1]);
+
+        bookingTime = DateTime(
+          parsedDate.year,
+          parsedDate.month,
+          parsedDate.day,
+          hour,
+          minute,
+        );
+        timeAgo = _getTimeAgo(bookingTime);
+      }
+    } catch (e) {
+      debugPrint("Error parsing time '$time': $e");
+    }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.green.withOpacity(0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
             blurRadius: 16,
             offset: const Offset(0, 4),
-            spreadRadius: 0,
+            spreadRadius: 1,
           ),
         ],
       ),
       child: Column(
         children: [
-          // Compact Header
+          // Enhanced Header with completed status
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -227,25 +252,25 @@ class ModernCompletedView extends StatelessWidget {
                 colors: [Colors.green.shade600, Colors.green.shade500],
               ),
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
             ),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     FluentIcons.checkmark_circle_24_filled,
                     color: Colors.white,
-                    size: 18,
+                    size: 24,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,15 +279,16 @@ class ModernCompletedView extends StatelessWidget {
                         formattedDate,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+                      const SizedBox(height: 2),
                       Text(
-                        time,
+                        '$dayOfWeek • $timeAgo',
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.9),
-                          fontSize: 13,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -271,12 +297,19 @@ class ModernCompletedView extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                    horizontal: 16,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.green.shade50,
-                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -284,14 +317,85 @@ class ModernCompletedView extends StatelessWidget {
                       Icon(
                         FluentIcons.checkmark_24_filled,
                         color: Colors.green.shade600,
-                        size: 10,
+                        size: 14,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 6),
                       Text(
                         'Completed',
                         style: TextStyle(
                           color: Colors.green.shade700,
-                          fontSize: 10,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Enhanced Booking details
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                _buildDetailRow(
+                  FluentIcons.clock_24_regular,
+                  'Time',
+                  time,
+                  Colors.green.shade600,
+                ),
+                const SizedBox(height: 16),
+                _buildDetailRow(
+                  FluentIcons.color_24_regular,
+                  'Background',
+                  color,
+                  Colors.purple.shade600,
+                ),
+                const SizedBox(height: 16),
+                _buildDetailRow(
+                  FluentIcons.people_24_regular,
+                  'People',
+                  person,
+                  Colors.blue.shade600,
+                ),
+                if (!role && email.isNotEmpty) ...[
+                  const SizedBox(height: 16),
+                  _buildDetailRow(
+                    FluentIcons.mail_24_regular,
+                    'Email',
+                    email,
+                    Colors.orange.shade600,
+                  ),
+                ],
+                const SizedBox(height: 20),
+
+                // Session completed indicator
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.green.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        FluentIcons.star_24_filled,
+                        color: Colors.amber.shade600,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Session completed successfully',
+                        style: TextStyle(
+                          color: Colors.green.shade700,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -301,83 +405,63 @@ class ModernCompletedView extends StatelessWidget {
               ],
             ),
           ),
-
-          // Compact Details
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _buildCompactDetail(
-                  FluentIcons.color_24_regular,
-                  'Background',
-                  color,
-                  Colors.purple.shade600,
-                ),
-                const SizedBox(height: 8),
-                _buildCompactDetail(
-                  FluentIcons.people_24_regular,
-                  'People',
-                  person,
-                  Colors.blue.shade600,
-                ),
-                if (!role && email.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  _buildCompactDetail(
-                    FluentIcons.mail_24_regular,
-                    'Email',
-                    email,
-                    Colors.orange.shade600,
-                  ),
-                ],
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
 
-  Widget _buildCompactDetail(
+  Widget _buildDetailRow(
     IconData icon,
     String label,
     String value,
     Color iconColor,
   ) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: iconColor.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: iconColor.withOpacity(0.1), width: 1),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
           ),
-          child: Icon(icon, color: iconColor, size: 16),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                    letterSpacing: 0.2,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -397,5 +481,34 @@ class ModernCompletedView extends StatelessWidget {
       'Dec',
     ];
     return months[month - 1];
+  }
+
+  String _getDayOfWeek(int day) {
+    const days = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+    return days[day - 1];
+  }
+
+  String _getTimeAgo(DateTime bookingTime) {
+    DateTime now = DateTime.now();
+    Duration difference = now.difference(bookingTime);
+
+    if (difference.inDays > 30) {
+      int months = (difference.inDays / 30).floor();
+      return '$months ${months == 1 ? 'month' : 'months'} ago';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+    } else {
+      return 'Recently';
+    }
   }
 }

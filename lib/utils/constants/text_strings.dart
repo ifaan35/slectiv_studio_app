@@ -276,4 +276,17 @@ class SlectivTexts {
   static const String transactionTitle = "Transaction";
   static const String transactionUpcoming = "Upcoming";
   static const String transactionCompleted = "Completed";
+
+  // -- Admin Refund Management
+  static const String adminRefundTitle = "Refund Management";
+  static const String adminRefundSubtitle =
+      "Review and process refund requests";
+  static const String adminRefundPending = "Pending Approval";
+  static const String adminRefundProcessed = "Processed";
+  static const String adminRefundApprove = "Approve";
+  static const String adminRefundReject = "Reject";
+  static const String adminRefundApproved = "Approved";
+  static const String adminRefundRejected = "Rejected";
+  static const String adminRefundNoPending = "No pending refunds";
+  static const String adminRefundNoProcessed = "No processed refunds yet";
 }

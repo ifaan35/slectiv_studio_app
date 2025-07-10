@@ -20,7 +20,7 @@ class TransactionController extends GetxController {
   // Observables for upcoming booking management
   final RxString selectedTime = ''.obs;
   final RxString selectedColor = ''.obs;
-  final RxString selectedPerson = ''.obs;
+  final RxString selectedPerson = '1'.obs;
   final RxBool isLoading = false.obs;
 
   // Options for dropdowns
@@ -159,7 +159,12 @@ class TransactionController extends GetxController {
   void initializeEditForm(String time, String color, String person) {
     selectedTime.value = time;
     selectedColor.value = color;
-    selectedPerson.value = person;
+    // Validate person value exists in options, default to '1' if not
+    if (personOptions.contains(person)) {
+      selectedPerson.value = person;
+    } else {
+      selectedPerson.value = '1';
+    }
   }
 
   /// Check if time slot is available for booking
@@ -557,7 +562,7 @@ class TransactionController extends GetxController {
         const Text('Number of People'),
         Obx(
           () => DropdownButtonFormField<String>(
-            value: selectedPerson.value,
+            value: selectedPerson.value.isEmpty ? '1' : selectedPerson.value,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -575,7 +580,7 @@ class TransactionController extends GetxController {
                   );
                 }).toList(),
             onChanged: (newValue) {
-              if (newValue != null) {
+              if (newValue != null && newValue.isNotEmpty) {
                 selectedPerson.value = newValue;
               }
             },

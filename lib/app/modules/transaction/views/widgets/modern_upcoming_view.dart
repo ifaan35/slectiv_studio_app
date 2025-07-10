@@ -36,7 +36,7 @@ class ModernUpcomingView extends StatelessWidget {
       }
 
       return ListView.builder(
-        padding: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: 16),
         itemCount: upcomingBookings.length,
         itemBuilder: (context, index) {
           final booking = upcomingBookings[index];
@@ -112,28 +112,22 @@ class ModernUpcomingView extends StatelessWidget {
     String dayOfWeek = _getDayOfWeek(parsedDate.weekday);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 20,
+            color: SlectivColors.primaryBlue.withOpacity(0.06),
+            blurRadius: 12,
             offset: const Offset(0, 4),
             spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-            spreadRadius: 2,
           ),
         ],
       ),
       child: Column(
         children: [
-          // Header with date and status
+          // Compact Header
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -141,8 +135,8 @@ class ModernUpcomingView extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
+                  SlectivColors.primaryBlue,
                   SlectivColors.primaryBlue.withOpacity(0.8),
-                  SlectivColors.secondaryBlue.withOpacity(0.8),
                 ],
               ),
               borderRadius: const BorderRadius.only(
@@ -152,17 +146,10 @@ class ModernUpcomingView extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    FluentIcons.calendar_24_filled,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+                const Icon(
+                  FluentIcons.calendar_24_filled,
+                  color: Colors.white,
+                  size: 20,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -180,9 +167,9 @@ class ModernUpcomingView extends StatelessWidget {
                       Text(
                         dayOfWeek,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withOpacity(0.8),
                           fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -190,82 +177,60 @@ class ModernUpcomingView extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
+                    horizontal: 8,
+                    vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.orange.withOpacity(0.3),
-                      width: 1,
-                    ),
+                    color: Colors.orange.shade100,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        FluentIcons.clock_24_filled,
-                        color: Colors.orange,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Upcoming',
-                        style: TextStyle(
-                          color: Colors.orange.shade700,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    'Upcoming',
+                    style: TextStyle(
+                      color: Colors.orange.shade700,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
 
-          // Booking details
+          // Compact booking details
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildDetailRow(
-                  FluentIcons.clock_24_regular,
-                  'Time',
-                  time,
-                  SlectivColors.primaryBlue,
+                Row(
+                  children: [
+                    _buildCompactDetail(FluentIcons.clock_24_regular, time),
+                    const SizedBox(width: 16),
+                    _buildCompactDetail(FluentIcons.color_24_regular, color),
+                  ],
                 ),
                 const SizedBox(height: 12),
-                _buildDetailRow(
-                  FluentIcons.color_24_regular,
-                  'Background',
-                  color,
-                  Colors.purple,
+                Row(
+                  children: [
+                    _buildCompactDetail(FluentIcons.people_24_regular, person),
+                    if (!role && email.isNotEmpty) ...[
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildCompactDetail(
+                          FluentIcons.mail_24_regular,
+                          email,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
-                const SizedBox(height: 12),
-                _buildDetailRow(
-                  FluentIcons.people_24_regular,
-                  'People',
-                  person,
-                  Colors.green,
-                ),
-                if (!role && email.isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  _buildDetailRow(
-                    FluentIcons.mail_24_regular,
-                    'Email',
-                    email,
-                    Colors.orange,
-                  ),
-                ],
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
-                // Action buttons
+                // Compact Action buttons
                 Row(
                   children: [
                     Expanded(
-                      child: _buildActionButton(
+                      child: _buildCompactButton(
                         icon: FluentIcons.edit_24_regular,
                         label: 'Edit',
                         color: SlectivColors.primaryBlue,
@@ -279,13 +244,12 @@ class ModernUpcomingView extends StatelessWidget {
                             ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
                     Expanded(
-                      child: _buildActionButton(
+                      child: _buildCompactButton(
                         icon: FluentIcons.delete_24_regular,
                         label: 'Cancel',
-                        color:
-                            SlectivColors.cancelAndNegatifSnackbarButtonColor,
+                        color: Colors.red.shade500,
                         onTap:
                             () => controller.showDeleteConfirmation(
                               date,
@@ -304,52 +268,37 @@ class ModernUpcomingView extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(
-    IconData icon,
-    String label,
-    String value,
-    Color iconColor,
-  ) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(icon, color: iconColor, size: 16),
+  Widget _buildCompactDetail(IconData icon, String value) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200, width: 1),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
+        child: Row(
+          children: [
+            Icon(icon, color: SlectivColors.primaryBlue, size: 16),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
                 value,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildActionButton({
+  Widget _buildCompactButton({
     required IconData icon,
     required String label,
     required Color color,
@@ -359,24 +308,24 @@ class ModernUpcomingView extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(color: color.withOpacity(0.3), width: 1),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, color: color, size: 16),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Text(
                 label,
                 style: TextStyle(
                   color: color,
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
               ),
